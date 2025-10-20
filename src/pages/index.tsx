@@ -16,7 +16,6 @@ export default function Home() {
     <div
       className={`${geistSans.className} ${geistMono.className}`}
     >
-      123
     </div>
   );
 }
