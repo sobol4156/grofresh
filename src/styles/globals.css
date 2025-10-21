@@ -32,14 +32,13 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: "Plus Jakarta Sans", sans-serif;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  margin: 0;
 }
 
 .container {
-  margin-left: 24px;
-  margin-right: 24px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
   max-width: 640px;
 }
 

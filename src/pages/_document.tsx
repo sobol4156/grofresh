@@ -12,7 +12,7 @@ export default function Document() {
         rel="stylesheet"
       />
     </Head>
-    <body className="antialiased mt-[30px]">
+    <body className="antialiased mt-[30px] w-full">
       <Main />
       <NextScript />
     </body>
