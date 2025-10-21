@@ -13,7 +13,7 @@ export default function DiscountCard() {
       </Button>
 
       <Image
-        src='/image/product-discount.png'
+        src='/images/product-discount.png'
         width={130}
         height={130}
         className="absolute right-0 bottom-0 object-contain z-10"
