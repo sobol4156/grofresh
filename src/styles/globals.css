@@ -3,11 +3,11 @@
 @import "./_reset.css";
 
 :root {
-  --background: #F0F0F0;
+  --background: #f0f0f0;
   --foreground: #171717;
   --flash-white: #f0f0f0;
   --light-silver: #d9d9d9;
-  --green-500: #00824B;
+  --green-500: #00824b;
 }
 
 @theme inline {
@@ -19,6 +19,10 @@
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --padding-lg: 24px;
+
+  --breakpoint-md: 640px;
 }
 /* 
 @media (prefers-color-scheme: dark) {
@@ -30,7 +34,7 @@
 } */
 
 html {
-   scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -41,12 +45,12 @@ body {
 
 .container {
   margin: 0 auto;
-  padding-left: 24px;
-  padding-right: 24px;
-  max-width: 640px;
+  padding-left: var(--padding-lg);
+  padding-right: var(--padding-lg);
+  max-width: var(--breakpoint-md);
 }
 
-
-html, body {
+html,
+body {
   height: 100%;
 }
