@@ -1,3 +1,10 @@
+.h3-bold {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+}
+
 .h5-regular {
   font-style: normal;
   font-weight: 400;
@@ -10,4 +17,18 @@
   font-weight: 700;
   font-size: 16px;
   line-height: 20px;
+}
+
+.small-regular {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+}
+.small-bold {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
 }

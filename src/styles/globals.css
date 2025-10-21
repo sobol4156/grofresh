@@ -6,6 +6,7 @@
   --foreground: #171717;
   --flash-white: #f0f0f0;
   --light-silver: #d9d9d9;
+  --green-500: #00824B;
 }
 
 @theme inline {
@@ -13,6 +14,7 @@
   --color-foreground: var(--foreground);
   --color-flash-white: var(--flash-white);
   --color-light-silver: var(--light-silver);
+  --color-green-500: var(--green-500);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -31,11 +33,17 @@ body {
   color: var(--foreground);
   font-family: "Plus Jakarta Sans", sans-serif;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .container {
   margin-left: 24px;
   margin-right: 24px;
   max-width: 640px;
+}
+
+
+html, body {
+  height: 100%;
 }

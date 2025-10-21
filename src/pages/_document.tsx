@@ -1,5 +1,5 @@
-import Header from "@/widgets/header";
 import { Html, Head, Main, NextScript } from "next/document";
+
 
 export default function Document() {
 
@@ -13,7 +13,6 @@ export default function Document() {
       />
     </Head>
     <body className="antialiased mt-[30px]">
-      <Header />
       <Main />
       <NextScript />
     </body>
