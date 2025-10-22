@@ -1,8 +1,9 @@
-import useDebounce from "@/shared/lib/useDebounce";
+import useDebounce from "@/shared/hooks/useDebounce";
 import Input from "@/shared/ui/Input";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import ClearIcon from '@mui/icons-material/Clear';
+import { useClickOutside } from "@/shared/hooks/useClickOutside";
 
 type RecentItem = {
   id: string;
@@ -20,59 +21,23 @@ const CONST_RECENT: RecentItem[] = [
 export default function SearchRecently() {
   const [value, setValue] = useState('');
   const [recent, setRecent] = useState<RecentItem[]>(CONST_RECENT);
-  const [visibleRecent, setVisibleRecent] = useState<RecentItem[]>(CONST_RECENT);
   const [focused, setFocused] = useState(false);
   const [edit, setEdit] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null)
 
-  const debouncedValue = useDebounce(value, 500);
+  const debouncedValue = useDebounce(value, 100);
 
-  useEffect(() => {
-    if (!debouncedValue.trim()) return
+  useClickOutside(wrapperRef as React.RefObject<HTMLElement>, () => { setEdit(false); setFocused(false) })
+  useClickOutside(listRef as React.RefObject<HTMLElement>, () => setEdit(false))
 
+  const visibleRecent = useMemo(() => {
+    if (!debouncedValue.trim()) return recent.slice(0, 5);
+    return recent
+      .filter(item => item.name.toLowerCase().includes(debouncedValue.toLowerCase()))
+      .slice(0, 5);
+  }, [debouncedValue, recent]);
 
-    setVisibleRecent(() => {
-      const updateVisibled = recent.filter((el) => el.name.toLowerCase().includes(debouncedValue.toLowerCase()));
-
-
-      return updateVisibled.slice(0, 5)
-    })
-    // Обновление списка recent
-    // if (!debouncedValue.trim()) return;
-
-    // setRecent((prev) => {
-    //   const exists = prev.find((item) => item.name === debouncedValue);
-
-    //   if (exists) {
-    //     const updated = [exists, ...prev.filter((item) => item.id !== exists.id)];
-    //     return updated.slice(0, 5);
-    //   }
-
-    //   const newItem: RecentItem = {
-    //     id: crypto.randomUUID(),
-    //     name: debouncedValue,
-    //   };
-
-    //   const updated = [newItem, ...prev];
-    //   return updated.slice(0, 5);
-    // });
-  }, [debouncedValue]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
-        setFocused(false);
-        setEdit(false);
-      }
-    };
-
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [edit]);
 
   const toggleEditMode = () => {
     setEdit((prev) => !prev)
@@ -122,44 +87,14 @@ export default function SearchRecently() {
             </div>
 
             <ul ref={listRef} className="mt-[22px] flex flex-col">
-              {visibleRecent.map((item, i) => (
-                <li
-                  key={i}
-                  className="relative"
-                  onClick={() => handleItem(item.name)}
-                >
-                  <div className="transition-colors ease-in-out rounded-xl hover:bg-flash-white cursor-pointer text-left w-full p-2 text-black flex items-center gap-[5px] border-b border-flash-white">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M13.5 8H12V13L16.28 15.54L17 14.33L13.5 12.25V8ZM13 3C10.6131 3 8.32387 3.94821 6.63604 5.63604C4.94821 7.32387 4 9.61305 4 12H1L4.96 16.03L9 12H6C6 10.1435 6.7375 8.36301 8.05025 7.05025C9.36301 5.7375 11.1435 5 13 5C14.8565 5 16.637 5.7375 17.9497 7.05025C19.2625 8.36301 20 10.1435 20 12C20 13.8565 19.2625 15.637 17.9497 16.9497C16.637 18.2625 14.8565 19 13 19C11.07 19 9.32 18.21 8.06 16.94L6.64 18.36C7.47161 19.2004 8.46234 19.8668 9.55433 20.32C10.6463 20.7733 11.8177 21.0045 13 21C15.3869 21 17.6761 20.0518 19.364 18.364C21.0518 16.6761 22 14.3869 22 12C22 9.61305 21.0518 7.32387 19.364 5.63604C17.6761 3.94821 15.3869 3 13 3Z" fill="black" />
-                    </svg>
-
-                    <span className="small-regular">
-                      {item.name}
-                    </span>
-
-                    {edit && (
-                      <motion.div
-                        initial={{ rotate: 0 }}
-                        animate={{ rotate: [-5, 5] }}
-                        transition={{
-                          duration: 0.1,
-                          repeat: Infinity,
-                          repeatType: "mirror",
-                          ease: "easeInOut",
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          deleteRecentItem(item.id);
-                        }}
-
-                        className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer hover:scale-[1.1]"
-                      >
-                        <ClearIcon />
-                      </motion.div>
-                    )}
-
-                  </div>
-                </li>
+              {visibleRecent.map((item) => (
+                <RecentItem
+                  key={item.id}
+                  item={item}
+                  edit={edit}
+                  handleItem={handleItem}
+                  deleteRecentItem={deleteRecentItem}
+                />
               ))}
             </ul>
 
@@ -170,3 +105,48 @@ export default function SearchRecently() {
     </div>
   )
 }
+type RecentItemProps = {
+  item: RecentItem;
+  edit: boolean;
+  handleItem: (name: string) => void;
+  deleteRecentItem: (id: string) => void;
+};
+
+const RecentItem = ({ item, edit, handleItem, deleteRecentItem }: RecentItemProps) => (
+  <li
+    className="relative"
+    onClick={() => handleItem(item.name)}
+  >
+    <div className="transition-colors ease-in-out rounded-xl hover:bg-flash-white cursor-pointer text-left w-full p-2 text-black flex items-center gap-[5px] border-b border-flash-white">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.5 8H12V13L16.28 15.54L17 14.33L13.5 12.25V8ZM13 3C10.6131 3 8.32387 3.94821 6.63604 5.63604C4.94821 7.32387 4 9.61305 4 12H1L4.96 16.03L9 12H6C6 10.1435 6.7375 8.36301 8.05025 7.05025C9.36301 5.7375 11.1435 5 13 5C14.8565 5 16.637 5.7375 17.9497 7.05025C19.2625 8.36301 20 10.1435 20 12C20 13.8565 19.2625 15.637 17.9497 16.9497C16.637 18.2625 14.8565 19 13 19C11.07 19 9.32 18.21 8.06 16.94L6.64 18.36C7.47161 19.2004 8.46234 19.8668 9.55433 20.32C10.6463 20.7733 11.8177 21.0045 13 21C15.3869 21 17.6761 20.0518 19.364 18.364C21.0518 16.6761 22 14.3869 22 12C22 9.61305 21.0518 7.32387 19.364 5.63604C17.6761 3.94821 15.3869 3 13 3Z" fill="black" />
+      </svg>
+
+      <span className="small-regular">
+        {item.name}
+      </span>
+
+      {edit && (
+        <motion.div
+          initial={{ rotate: 0 }}
+          animate={{ rotate: [-5, 5] }}
+          transition={{
+            duration: 0.1,
+            repeat: Infinity,
+            repeatType: "mirror",
+            ease: "easeInOut",
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            deleteRecentItem(item.id);
+          }}
+
+          className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer hover:scale-[1.1]"
+        >
+          <ClearIcon />
+        </motion.div>
+      )}
+
+    </div>
+  </li>
+)
