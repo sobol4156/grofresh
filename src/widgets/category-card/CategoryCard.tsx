@@ -1,15 +1,20 @@
 import Image from "next/image";
+import { Category } from "../browse-category/model/types";
 
-export default function CategoryCard() {
+interface CategoryProps {
+  category: Category
+}
+
+export default function CategoryCard({ category }: CategoryProps) {
   return (
-    <div className="bg-white p-4 rounded-[30px] flex flex-col gap-2.5">
+    <div className="bg-white p-4 transition-colors ease-in-out rounded-[30px] flex shrink-0 flex-col gap-2.5 cursor-pointer hover:bg-flash-white">
       <Image
-        src="/images/categories/vegetables.png"
+        src={category.image}
         width={65}
         height={65}
         priority
         className="rounded-full" alt="category" />
-      <p className="xtra-small-bold text-center">Vegetables</p>
+      <p className="xtra-small-bold text-center">{category.name}</p>
     </div>
   )
 }

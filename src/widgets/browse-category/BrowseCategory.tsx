@@ -1,4 +1,5 @@
 import CategoryCard from "../category-card";
+import { MOCK_CATEGORIES } from "./config/mock";
 
 interface BrowseCategoryProps {
   className?: string;
@@ -12,8 +13,8 @@ export default function BrowseCategory({ className }: BrowseCategoryProps) {
         <button className="small-regular">more</button>
       </div>
       <div className="mx-auto flex pl-lg pr-lg pb-[10px] max-w-(--breakpoint-md) mt-[22px] gap-2.5 minimal-scroll">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => (
-          <CategoryCard key={index} />
+        {MOCK_CATEGORIES.map((category) => (
+          <CategoryCard key={category.id} category={category} />
         ))}
       </div>
     </div>
