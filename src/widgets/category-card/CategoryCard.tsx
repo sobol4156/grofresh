@@ -7,6 +7,7 @@ export default function CategoryCard() {
         src="/images/categories/vegetables.png"
         width={65}
         height={65}
+        priority
         className="rounded-full" alt="category" />
       <p className="xtra-small-bold text-center">Vegetables</p>
     </div>

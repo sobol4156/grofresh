@@ -1,5 +1,6 @@
 import BrowseCategory from "@/widgets/browse-category";
 import DiscountCard from "@/widgets/discount-card";
+import PopularNow from "@/widgets/popular-now";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
 
         </div>
         <BrowseCategory className="mt-[22px] overflow-hidden" />
+        <PopularNow />
       </div>
     </div>
   );

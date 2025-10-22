@@ -26,6 +26,13 @@
   line-height: 20px;
 }
 
+.h6-regular {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+}
+
 .small-regular {
   font-style: normal;
   font-weight: 400;
@@ -37,7 +44,13 @@
   font-weight: 700;
   font-size: 12px;
   line-height: 15px;
-  text-align: center;
+}
+
+.medium-bold {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
 }
 
 .xtra-small-bold {

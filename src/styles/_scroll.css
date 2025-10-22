@@ -1,0 +1,65 @@
+/* Применять к блоку с overflow: auto/scroll */
+.minimal-scroll {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch; /* плавная прокрутка на iOS */
+}
+
+/* WebKit (Chrome, Safari, Edge) */
+.minimal-scroll::-webkit-scrollbar {
+  width: 12px;  /* увеличили ширину */
+  height: 12px; /* для горизонтального скролла */
+}
+
+.minimal-scroll::-webkit-scrollbar-track {
+  background: var(--scroll-track, transparent);
+}
+
+.minimal-scroll::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb, rgba(0,0,0,0.35));
+  border-radius: 6px; /* чуть меньше половины ширины для мягких краёв */
+  transition: background 0.18s ease, opacity 0.18s ease;
+}
+
+/* Hover state — чуть ярче */
+.minimal-scroll:hover::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb-hover, rgba(0,0,0,0.55));
+}
+
+/* Firefox */
+.minimal-scroll {
+  scrollbar-width: auto; /* thin → auto, чтобы было потолще */
+  scrollbar-color: var(--scroll-thumb, rgba(0,0,0,0.35)) var(--scroll-track, transparent);
+}
+
+/* Если хочешь, чтобы скролл был почти невидим и появлялся только при наведении */
+.minimal-scroll.hide-until-hover::-webkit-scrollbar-thumb {
+  opacity: 0;
+}
+.minimal-scroll.hide-until-hover:hover::-webkit-scrollbar-thumb {
+  opacity: 1;
+}
+
+/* Firefox hover imitation */
+.minimal-scroll.hide-until-hover {
+  scrollbar-color: transparent var(--scroll-track, transparent);
+}
+.minimal-scroll.hide-until-hover:hover {
+  scrollbar-color: var(--scroll-thumb, rgba(0,0,0,0.35)) var(--scroll-track, transparent);
+}
+
+/* 🔹 Медиа-запрос: до 640px делаем скролл полностью невидимым */
+@media (max-width: 640px) {
+  .minimal-scroll {
+    overflow: auto; /* оставляем прокрутку */
+  }
+
+  /* WebKit */
+  .minimal-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Firefox */
+  .minimal-scroll {
+    scrollbar-width: none;
+  }
+}

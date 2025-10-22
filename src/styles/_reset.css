@@ -17,16 +17,3 @@ button {
 button:focus {
   outline: none;
 }
-
-
-/* Скролл */
-/* Chrome, Safari, Edge */
-::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-
-/* Firefox */
-* {
-  scrollbar-width: none; /* убирает скролл */
-}

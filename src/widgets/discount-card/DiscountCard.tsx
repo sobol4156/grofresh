@@ -17,6 +17,7 @@ export default function DiscountCard() {
         width={130}
         height={130}
         className="absolute right-0 bottom-0 object-contain z-10"
+        priority
         alt="Picture of the author" />
 
         <div className="absolute size-[100px] -right-[25px] -top-[25px] bg-white opacity-15 rounded-full"></div>
