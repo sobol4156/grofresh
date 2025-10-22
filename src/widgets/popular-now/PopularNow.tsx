@@ -14,7 +14,6 @@ export default function PopularNow() {
           })}
         </div>
       </div>
-
     </div>
   )
 }
