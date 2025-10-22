@@ -20,32 +20,43 @@ const CONST_RECENT: RecentItem[] = [
 export default function SearchRecently() {
   const [value, setValue] = useState('');
   const [recent, setRecent] = useState<RecentItem[]>(CONST_RECENT);
+  const [visibleRecent, setVisibleRecent] = useState<RecentItem[]>(CONST_RECENT);
   const [focused, setFocused] = useState(false);
   const [edit, setEdit] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null)
 
-  const debouncedValue = useDebounce(value, 1000);
+  const debouncedValue = useDebounce(value, 500);
 
   useEffect(() => {
-    if (!debouncedValue.trim()) return;
+    if (!debouncedValue.trim()) return
 
-    setRecent((prev) => {
-      const exists = prev.find((item) => item.name === debouncedValue);
 
-      if (exists) {
-        const updated = [exists, ...prev.filter((item) => item.id !== exists.id)];
-        return updated.slice(0, 5);
-      }
+    setVisibleRecent(() => {
+      const updateVisibled = recent.filter((el) => el.name.toLowerCase().includes(debouncedValue.toLowerCase()));
 
-      const newItem: RecentItem = {
-        id: crypto.randomUUID(),
-        name: debouncedValue,
-      };
 
-      const updated = [newItem, ...prev];
-      return updated.slice(0, 5);
-    });
+      return updateVisibled.slice(0, 5)
+    })
+    // Обновление списка recent
+    // if (!debouncedValue.trim()) return;
+
+    // setRecent((prev) => {
+    //   const exists = prev.find((item) => item.name === debouncedValue);
+
+    //   if (exists) {
+    //     const updated = [exists, ...prev.filter((item) => item.id !== exists.id)];
+    //     return updated.slice(0, 5);
+    //   }
+
+    //   const newItem: RecentItem = {
+    //     id: crypto.randomUUID(),
+    //     name: debouncedValue,
+    //   };
+
+    //   const updated = [newItem, ...prev];
+    //   return updated.slice(0, 5);
+    // });
   }, [debouncedValue]);
 
   useEffect(() => {
@@ -97,7 +108,7 @@ export default function SearchRecently() {
 
       {/* Последние поисковые запросы */}
       <AnimatePresence>
-        {focused && recent.length > 0 && (
+        {focused && visibleRecent.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: -8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -109,8 +120,9 @@ export default function SearchRecently() {
               <h4 className="h4-bold text-black">Recent searches</h4>
               <button className="small-regular" onClick={() => setEdit(prev => !prev)}>edit</button>
             </div>
+
             <ul ref={listRef} className="mt-[22px] flex flex-col">
-              {recent.map((item, i) => (
+              {visibleRecent.map((item, i) => (
                 <li
                   key={i}
                   className="relative"
