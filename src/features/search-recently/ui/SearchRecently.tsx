@@ -1,12 +1,25 @@
+import useDebounce from "@/shared/lib/useDebounce";
 import Input from "@/shared/ui/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SearchRecently() {
   const [value, setValue] = useState('');
-  
+  const [recent, setRecent] = useState<string[]>(['test', 'test2']);
+
+  const debouncedValue = useDebounce(value, 500);
+
+  useEffect(() => {
+    if (!debouncedValue.trim()) return;
+
+    setRecent(prev => {
+      const updated = [debouncedValue, ...prev.filter(v => v !== debouncedValue)];
+      return updated.slice(0, 5);
+    });
+
+  }, [debouncedValue]);
   return (
-    <div>
-      <Input placeholder="Find groceries,or fresh product" name="search" handleChange={(e) => setValue(e.target.value)}>
+    <div className="relative z-50">
+      <Input value={value} placeholder="Find groceries,or fresh product" name="search" handleChange={(e) => setValue(e.target.value)}>
         <div className="flex items-center gap-4">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -17,6 +30,37 @@ export default function SearchRecently() {
           </svg>
         </div>
       </Input>
+
+      {/* Последние поисковые запросы */}
+      {recent.length > 0 && (
+        <div className="absolute w-full flex flex-col bg-white p-3 rounded-xl shadow-md">
+          <div className="flex justify-between items-center">
+            <h4 className="h4-bold text-black">Recent searches</h4>
+            <button className="small-regular">edit</button>
+          </div>
+          <ul className="mt-[22px] flex flex-col">
+            {recent.map((item, i) => (
+              <li
+                key={i}
+                onClick={() => setValue(item)}
+              >
+                <div className="transition-colors ease-in-out rounded-xl hover:bg-flash-white cursor-pointer text-left w-full p-2 text-black flex items-center gap-[5px] border-b border-flash-white">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13.5 8H12V13L16.28 15.54L17 14.33L13.5 12.25V8ZM13 3C10.6131 3 8.32387 3.94821 6.63604 5.63604C4.94821 7.32387 4 9.61305 4 12H1L4.96 16.03L9 12H6C6 10.1435 6.7375 8.36301 8.05025 7.05025C9.36301 5.7375 11.1435 5 13 5C14.8565 5 16.637 5.7375 17.9497 7.05025C19.2625 8.36301 20 10.1435 20 12C20 13.8565 19.2625 15.637 17.9497 16.9497C16.637 18.2625 14.8565 19 13 19C11.07 19 9.32 18.21 8.06 16.94L6.64 18.36C7.47161 19.2004 8.46234 19.8668 9.55433 20.32C10.6463 20.7733 11.8177 21.0045 13 21C15.3869 21 17.6761 20.0518 19.364 18.364C21.0518 16.6761 22 14.3869 22 12C22 9.61305 21.0518 7.32387 19.364 5.63604C17.6761 3.94821 15.3869 3 13 3Z" fill="black" />
+                  </svg>
+
+                  <span className="small-regular">
+                    {item}
+                  </span>
+
+                </div>
+
+              </li>
+            ))}
+          </ul>
+
+        </div>
+      )}
     </div>
   )
 }
