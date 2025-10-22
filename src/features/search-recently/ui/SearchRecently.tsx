@@ -1,35 +1,95 @@
 import useDebounce from "@/shared/lib/useDebounce";
 import Input from "@/shared/ui/Input";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import ClearIcon from '@mui/icons-material/Clear';
+
+type RecentItem = {
+  id: string;
+  name: string;
+};
+
+const CONST_RECENT: RecentItem[] = [
+  { id: '1', name: "Apple" },
+  { id: '2', name: "Banana" },
+  { id: '3', name: "Milk" },
+  { id: '4', name: "Banana" },
+  { id: '5', name: "Milk" },
+]
 
 export default function SearchRecently() {
   const [value, setValue] = useState('');
-  const [recent, setRecent] = useState<string[]>(['test', 'test2']);
+  const [recent, setRecent] = useState<RecentItem[]>(CONST_RECENT);
   const [focused, setFocused] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLUListElement>(null)
 
-  const debouncedValue = useDebounce(value, 500);
+  const debouncedValue = useDebounce(value, 1000);
 
   useEffect(() => {
     if (!debouncedValue.trim()) return;
 
-    setRecent(prev => {
-      const updated = [debouncedValue, ...prev.filter(v => v !== debouncedValue)];
+    setRecent((prev) => {
+      const exists = prev.find((item) => item.name === debouncedValue);
+
+      if (exists) {
+        const updated = [exists, ...prev.filter((item) => item.id !== exists.id)];
+        return updated.slice(0, 5);
+      }
+
+      const newItem: RecentItem = {
+        id: crypto.randomUUID(),
+        name: debouncedValue,
+      };
+
+      const updated = [newItem, ...prev];
       return updated.slice(0, 5);
     });
-
   }, [debouncedValue]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+        setFocused(false);
+        setEdit(false);
+      }
+    };
+
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [edit]);
+
+  const toggleEditMode = () => {
+    setEdit((prev) => !prev)
+  }
+
+  const deleteRecentItem = (id: string) => {
+    const updated = [...recent.filter((item) => item.id !== id)];
+    setRecent(updated)
+  }
+
+  const handleItem = (name: string) => {
+    if (edit) return
+
+    setValue(name);
+    setFocused(false)
+  }
+
   return (
-    <div className="relative z-50">
+    <div ref={wrapperRef} className="relative z-50">
       <Input value={value} placeholder="Find groceries,or fresh product" name="search" handleChange={(e) => setValue(e.target.value)}
         onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}>
+      >
         <div className="flex items-center gap-4">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M20.9999 20.9999L16.6499 16.6499" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          <svg className="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={toggleEditMode}>
             <path d="M21.25 11.9999H8.895M4.534 11.9999H2.75M4.534 11.9999C4.534 11.4217 4.76368 10.8672 5.17251 10.4584C5.58134 10.0496 6.13583 9.81989 6.714 9.81989C7.29217 9.81989 7.84666 10.0496 8.25549 10.4584C8.66432 10.8672 8.894 11.4217 8.894 11.9999C8.894 12.5781 8.66432 13.1326 8.25549 13.5414C7.84666 13.9502 7.29217 14.1799 6.714 14.1799C6.13583 14.1799 5.58134 13.9502 5.17251 13.5414C4.76368 13.1326 4.534 12.5781 4.534 11.9999ZM21.25 18.6069H15.502M15.502 18.6069C15.502 19.1852 15.2718 19.7403 14.8628 20.1492C14.4539 20.5582 13.8993 20.7879 13.321 20.7879C12.7428 20.7879 12.1883 20.5572 11.7795 20.1484C11.3707 19.7396 11.141 19.1851 11.141 18.6069M15.502 18.6069C15.502 18.0286 15.2718 17.4745 14.8628 17.0655C14.4539 16.6566 13.8993 16.4269 13.321 16.4269C12.7428 16.4269 12.1883 16.6566 11.7795 17.0654C11.3707 17.4742 11.141 18.0287 11.141 18.6069M11.141 18.6069H2.75M21.25 5.39289H18.145M13.784 5.39289H2.75M13.784 5.39289C13.784 4.81472 14.0137 4.26023 14.4225 3.8514C14.8313 3.44257 15.3858 3.21289 15.964 3.21289C16.2503 3.21289 16.5338 3.26928 16.7983 3.37883C17.0627 3.48839 17.3031 3.64897 17.5055 3.8514C17.7079 4.05383 17.8685 4.29415 17.9781 4.55864C18.0876 4.82313 18.144 5.10661 18.144 5.39289C18.144 5.67917 18.0876 5.96265 17.9781 6.22714C17.8685 6.49163 17.7079 6.73195 17.5055 6.93438C17.3031 7.13681 17.0627 7.29739 16.7983 7.40695C16.5338 7.5165 16.2503 7.57289 15.964 7.57289C15.3858 7.57289 14.8313 7.34321 14.4225 6.93438C14.0137 6.52555 13.784 5.97106 13.784 5.39289Z" stroke="black" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" />
           </svg>
         </div>
@@ -47,13 +107,14 @@ export default function SearchRecently() {
           >
             <div className="flex justify-between items-center">
               <h4 className="h4-bold text-black">Recent searches</h4>
-              <button className="small-regular">edit</button>
+              <button className="small-regular" onClick={() => setEdit(prev => !prev)}>edit</button>
             </div>
-            <ul className="mt-[22px] flex flex-col">
+            <ul ref={listRef} className="mt-[22px] flex flex-col">
               {recent.map((item, i) => (
                 <li
                   key={i}
-                  onClick={() => setValue(item)}
+                  className="relative"
+                  onClick={() => handleItem(item.name)}
                 >
                   <div className="transition-colors ease-in-out rounded-xl hover:bg-flash-white cursor-pointer text-left w-full p-2 text-black flex items-center gap-[5px] border-b border-flash-white">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,11 +122,31 @@ export default function SearchRecently() {
                     </svg>
 
                     <span className="small-regular">
-                      {item}
+                      {item.name}
                     </span>
 
-                  </div>
+                    {edit && (
+                      <motion.div
+                        initial={{ rotate: 0 }}
+                        animate={{ rotate: [-5, 5] }}
+                        transition={{
+                          duration: 0.1,
+                          repeat: Infinity,
+                          repeatType: "mirror",
+                          ease: "easeInOut",
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteRecentItem(item.id);
+                        }}
 
+                        className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer hover:scale-[1.1]"
+                      >
+                        <ClearIcon />
+                      </motion.div>
+                    )}
+
+                  </div>
                 </li>
               ))}
             </ul>
