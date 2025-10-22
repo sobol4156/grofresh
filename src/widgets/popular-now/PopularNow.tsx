@@ -1,4 +1,5 @@
 import { Product } from "@/entities/product"
+import { MOCK_PRODUCTS } from "@/entities/product/config/mock"
 
 export default function PopularNow() {
   return (
@@ -9,8 +10,8 @@ export default function PopularNow() {
           <button className="small-regular">more</button>
         </div>
         <div className="flex flex-wrap justify-center gap-2.5 mt-[22px]">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, index) => {
-            return <Product key={index} />
+          {MOCK_PRODUCTS.map((product) => {
+            return <Product key={product.id} product={product} />
           })}
         </div>
       </div>

@@ -1,0 +1,68 @@
+import { Product } from "../model/types";
+
+export const MOCK_PRODUCTS: Product[] = [
+  {
+    id: crypto.randomUUID(),
+    src: "/images/products/spinach.png",
+    name: "Baby Spinach",
+    unitInfo: "250 gm",
+    price: "$2.19",
+    category: "Vegetables",
+  },
+  {
+    id: crypto.randomUUID(),
+    src: "/images/products/green-cabbage.png",
+    name: "Green Cabbage",
+    unitInfo: "200 gm",
+    price: "$2.50",
+    category: "Vegetables",
+  },
+  {
+    id: crypto.randomUUID(),
+    src: "/images/products/red-apples.png",
+    name: "Red Apples",
+    unitInfo: "500 gm",
+    price: "$2.50",
+    category: "Fruits",
+  },
+  {
+    id: crypto.randomUUID(),
+    src: "/images/products/banana.png",
+    name: "Bananas",
+    unitInfo: "1 Dozen",
+    price: "$2.79",
+    category: "Fruits",
+  },
+  {
+    id: crypto.randomUUID(),
+    src: "/images/products/oranges.png",
+    name: "Oranges",
+    unitInfo: "1 kg",
+    price: "$3.10",
+    category: "Fruits",
+  },
+  {
+    id: crypto.randomUUID(),
+    src: "/images/products/greek-yogurt.png",
+    name: "Greek Yogurt",
+    unitInfo: "200 gm",
+    price: "$2.49",
+    category: "Dairy",
+  },
+  {
+    id: crypto.randomUUID(),
+    src: "/images/products/chocolate-milk.png",
+    name: "Chocolate Milk",
+    unitInfo: "100 ml",
+    price: "$1.89",
+    category: "Dairy",
+  },
+  {
+    id: crypto.randomUUID(),
+    src: "/images/products/wheat-bread.png",
+    name: "Wheat Bread",
+    unitInfo: "1 loaf",
+    price: "$2.99",
+    category: "Bakery",
+  },
+];

@@ -1,23 +1,28 @@
 import IconButton from "@/shared/ui/IconButton";
 import Image from "next/image";
+import type { Product } from "../model/types";
 
-export default function Product() {
+interface ProductProps {
+  product: Product;
+}
+
+export default function Product({ product }: ProductProps) {
   return (
     <div className="bg-white flex-1 min-w-[150px] max-w-[180px] p-2.5 flex flex-col gap-2.5 rounded-[30px]" style={{ boxShadow: '-1px -5px 61px rgba(139, 138, 138, 0.12)' }}>
       <div className="bg-white rounded-[20px] flex justify-center" style={{ boxShadow: '-1px -5px 61px rgba(139, 138, 138, 0.12)' }}>
         <Image
-          src="/images/products/spinach.png"
+          src={product.src ?? '/images/products/spinach.png'}
           width={100}
           height={100}
           alt="Product" />
       </div>
       <div>
         <div className="flex flex-col gap-[5px]">
-          <h5 className="h5-bold">Baby Spinach</h5>
-          <span className="h6-regular">250 gm</span>
+          <h5 className="h5-bold">{product.name}</h5>
+          <span className="h6-regular">{product.unitInfo}</span>
         </div>
         <div className="flex justify-between items-center mt-[7px]">
-          <b className="medium-bold">$2.19</b>
+          <b className="medium-bold">{product.price}</b>
           <IconButton variant="success" size="medium">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M6.05786 10.5986C6.4174 10.5986 6.70915 10.8905 6.70923 11.25C6.70923 11.6096 6.41745 11.9014 6.05786 11.9014C5.69834 11.9013 5.40649 11.6095 5.40649 11.25C5.40658 10.8905 5.69839 10.5987 6.05786 10.5986Z" fill="white" stroke="white" strokeWidth="0.428571" />
