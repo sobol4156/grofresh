@@ -1,7 +1,7 @@
 import useDebounce from "@/shared/hooks/useDebounce";
 import Input from "@/shared/ui/Input";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import ClearIcon from '@mui/icons-material/Clear';
 import { useClickOutside } from "@/shared/hooks/useClickOutside";
 
