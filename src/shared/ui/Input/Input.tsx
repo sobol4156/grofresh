@@ -21,4 +21,4 @@ export default function Input({ name, placeholder = "", children, ...props }: Pr
       {children}
     </div>
   );
-}
+};
