@@ -19,10 +19,10 @@ export default function Product({ product }: ProductProps) {
       <div>
         <div className="flex flex-col gap-[5px]">
           <h5 className="h5-bold">{product.name}</h5>
-          <span className="h6-regular">{product.unitInfo}</span>
+          <span className="h6-regular">{product.unitValue} {product.unit}</span>
         </div>
         <div className="flex justify-between items-center mt-[7px]">
-          <b className="medium-bold">{product.price}</b>
+          <b className="medium-bold">${product.price}</b>
           <IconButton variant="success" size="medium">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M6.05786 10.5986C6.4174 10.5986 6.70915 10.8905 6.70923 11.25C6.70923 11.6096 6.41745 11.9014 6.05786 11.9014C5.69834 11.9013 5.40649 11.6095 5.40649 11.25C5.40658 10.8905 5.69839 10.5987 6.05786 10.5986Z" fill="white" stroke="white" strokeWidth="0.428571" />

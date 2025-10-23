@@ -1,8 +1,12 @@
 export interface Product {
-  id: string;
+  id: number;
   src: string;
   name: string;
-  unitInfo: string;
-  price: string;
+  unitValue: number;
+  unit: Unit;
+  price: number;
   category: string;
+  category_id: number;
 }
+
+export type Unit = "g" | "kg" | "ml" | "l" | "pcs" | "dozen" | "loaf";
