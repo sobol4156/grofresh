@@ -28,7 +28,7 @@ export const cartSlice = createSlice({
         return
       }
 
-      const item = { ...action.payload, quantity: 1 }
+      const item = { ...action.payload, quantity: existingItem?.quantity ? existingItem.quantity : 1 }
       if (!existingItem) {
         state.items.push(item)
       }
@@ -43,7 +43,7 @@ export const cartSlice = createSlice({
         } else {
           acc.push(item);
         }
-        
+
         return acc;
       }, [] as ICartProduct[]);
 
