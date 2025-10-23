@@ -3,7 +3,7 @@ import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import { styled } from '@mui/material/styles';
 import Badge, { badgeClasses } from '@mui/material/Badge';
 import { useAppSelector } from '@/app/providers/store-provider/config/hooks'
-import { selectCartCount, selectCartItems } from '@/entities/cart/model/slice'
+import { selectCartCount, selectCartItems } from '@/entities/cart/model/cart.slice'
 import { useEffect } from "react";
 
 const CartBadge = styled(Badge)`
@@ -20,7 +20,7 @@ export default function CartIcon() {
 
   useEffect(() => {
     console.log(cartItems)
-  },[cartItems])
+  }, [cartItems])
   return (
     <IconButton>
       <LocalGroceryStoreIcon className='text-black' />

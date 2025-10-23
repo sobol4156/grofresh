@@ -5,6 +5,7 @@ import { ThemeProvider } from "@mui/material";
 import { theme } from "@/shared/theme";
 import Head from "next/head";
 import { StoreProvider } from "@/app/providers/store-provider";
+import { AddToCartModal } from "@/features/add-to-cart";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -21,10 +22,10 @@ export default function App({ Component, pageProps }: AppProps) {
           <main className="w-full">
             <Component {...pageProps} />
           </main>
+          <AddToCartModal />
+
         </ThemeProvider>
       </StoreProvider>
-
-
     </>
   );
 }

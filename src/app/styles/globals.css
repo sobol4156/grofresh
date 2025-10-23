@@ -8,6 +8,7 @@
   --foreground: #171717;
   --flash-white: #f0f0f0;
   --light-silver: #d9d9d9;
+  --green-400: #339b6f;
   --green-500: #00824b;
   --green-700: #005c35;
   --green-800: #004829;
@@ -24,6 +25,7 @@
   --color-foreground: var(--foreground);
   --color-flash-white: var(--flash-white);
   --color-light-silver: var(--light-silver);
+  --color-green-400: var(--green-400);
   --color-green-500: var(--green-500);
   --color-green-700: var(--green-700);
   --color-green-800: var(--green-800);

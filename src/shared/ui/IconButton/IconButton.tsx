@@ -7,7 +7,7 @@ interface Props extends IconButtonProps {
   size?: "large" | "small" | "medium"
 }
 
-export default function IconButton({ size = 'large', variant = 'default', children, ...props }: Props) {
+export default function IconButton({ size = 'large', variant = 'default', sx, children, ...props }: Props) {
 
   const variantStyles = () => {
     if (variant === 'default') {
@@ -16,6 +16,7 @@ export default function IconButton({ size = 'large', variant = 'default', childr
         '&:hover': {
           backgroundColor: 'var(--color-light-silver)',
         },
+        ...sx
       }
     }
 
@@ -25,6 +26,7 @@ export default function IconButton({ size = 'large', variant = 'default', childr
         '&:hover': {
           backgroundColor: 'var(--color-green-700)',
         },
+        ...sx
       }
     }
   }

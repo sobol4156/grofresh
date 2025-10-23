@@ -1,3 +1,3 @@
-import AddToCartButton from "./ui/AddToCartButton";
+import AddToCartModal from "./ui/AddToCartModal";
 
-export { AddToCartButton }
+export { AddToCartModal }
