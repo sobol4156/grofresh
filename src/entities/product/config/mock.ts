@@ -1,6 +1,6 @@
-import { Product } from "../model/types";
+import { IProduct } from "../model/types";
 
-export const MOCK_PRODUCTS: Product[] = [
+export const MOCK_PRODUCTS: IProduct[] = [
   {
     id: 1,
     src: "/images/products/spinach.png",

@@ -1,13 +1,13 @@
 import { ReactNode } from "react";
-import IconButtonMui from '@mui/material/IconButton';
+import IconButtonMui, { IconButtonProps } from '@mui/material/IconButton';
 
-interface Props {
+interface Props extends IconButtonProps {
   children?: ReactNode;
   variant?: 'default' | 'success',
   size?: "large" | "small" | "medium"
 }
 
-export default function IconButton({ children, size = 'large', variant = 'default' }: Props) {
+export default function IconButton({ size = 'large', variant = 'default', children, ...props }: Props) {
 
   const variantStyles = () => {
     if (variant === 'default') {
@@ -29,9 +29,8 @@ export default function IconButton({ children, size = 'large', variant = 'defaul
     }
   }
 
-  return <>
-    <IconButtonMui size={size} sx={variantStyles()}>
-      {children}
-    </IconButtonMui >
-  </>;
+  return (<IconButtonMui size={size} sx={variantStyles()} {...props}>
+    {children}
+  </IconButtonMui >
+  )
 }

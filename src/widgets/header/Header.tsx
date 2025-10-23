@@ -2,8 +2,8 @@ import Avatar from '@/shared/ui/Avatar/Avatar'
 import IconButton from '@/shared/ui/IconButton'
 import { styled } from '@mui/material/styles';
 import Badge, { badgeClasses } from '@mui/material/Badge';
-import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import CartIcon from '@/entities/cart/ui/CartIcon';
 
 const CartBadge = styled(Badge)`
   & .${badgeClasses.badge} {
@@ -24,16 +24,14 @@ export default function Header() {
       </div>
 
       <div className='flex items-center gap-1.5'>
-        <IconButton>
-          <LocalGroceryStoreIcon className='text-black' />
-        </IconButton>
+        <CartIcon />
 
         <IconButton>
-          <NotificationsNoneIcon  sx={{color: 'black' }} fontSize='inherit' />
+          <NotificationsNoneIcon sx={{ color: 'black' }} fontSize='inherit' />
           <CartBadge badgeContent={2} color="warning" overlap="circular" />
         </IconButton>
       </div>
 
 
-    </header>)
+    </header >)
 }

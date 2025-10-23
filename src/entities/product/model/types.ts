@@ -1,4 +1,4 @@
-export interface Product {
+export interface IProduct {
   id: number;
   src: string;
   name: string;
@@ -7,6 +7,7 @@ export interface Product {
   price: number;
   category: string;
   category_id: number;
+  quantity?: number;
 }
 
 export type Unit = "g" | "kg" | "ml" | "l" | "pcs" | "dozen" | "loaf";
