@@ -29,7 +29,6 @@ export default function SearchRecently() {
   const debouncedValue = useDebounce(value, 100);
 
   useClickOutside(wrapperRef as React.RefObject<HTMLElement>, () => { setEdit(false); setFocused(false) })
-  useClickOutside(listRef as React.RefObject<HTMLElement>, () => setEdit(false))
 
   const visibleRecent = useMemo(() => {
     if (!debouncedValue.trim()) return recent.slice(0, 5);
@@ -83,7 +82,10 @@ export default function SearchRecently() {
           >
             <div className="flex justify-between items-center">
               <h4 className="h4-bold text-black">Recent searches</h4>
-              <button className="small-regular" onClick={() => setEdit(prev => !prev)}>edit</button>
+              <button className="small-regular" onClick={(e) => {
+                e.stopPropagation();
+                setEdit(prev => !prev);
+              }}>edit</button>
             </div>
 
             <ul ref={listRef} className="mt-[22px] flex flex-col">
