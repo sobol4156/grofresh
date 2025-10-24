@@ -7,31 +7,21 @@ interface Props extends IconButtonProps {
   size?: "large" | "small" | "medium"
 }
 
-export default function IconButton({ size = 'large', variant = 'default', sx, children, ...props }: Props) {
-
-  const variantStyles = () => {
-    if (variant === 'default') {
-      return {
-        backgroundColor: 'var(--color-flash-white)',
-        '&:hover': {
-          backgroundColor: 'var(--color-light-silver)',
-        },
-        ...sx
-      }
-    }
-
-    if (variant === 'success') {
-      return {
-        backgroundColor: 'var(--color-green-500)',
-        '&:hover': {
-          backgroundColor: 'var(--color-green-700)',
-        },
-        ...sx
-      }
-    }
+const VARIANT_STYLES = {
+  default: {
+    backgroundColor: 'var(--color-flash-white)',
+    '&:hover': { backgroundColor: 'var(--color-light-silver)' }
+  },
+  success: {
+    backgroundColor: 'var(--color-green-500)',
+    '&:hover': { backgroundColor: 'var(--color-green-700)' }
   }
+};
 
-  return (<IconButtonMui size={size} sx={variantStyles()} {...props}>
+export default function IconButton({ size = 'large', variant = 'default', sx, children, ...props }: Props) {
+  const styles = { ...VARIANT_STYLES[variant], ...sx };
+
+  return (<IconButtonMui size={size} sx={styles} {...props}>
     {children}
   </IconButtonMui >
   )

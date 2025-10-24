@@ -33,7 +33,7 @@
     "**/*.tsx",
     "next-env.d.ts",
     ".next/types/**/*.ts"
-  ],
+, "src/shared/ui/Counter/Counter.test.tsx", "babel.config.jest.js"  ],
   "exclude": [
     "node_modules"
   ]

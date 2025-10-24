@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/app/providers/store-provider/config/hooks'
-import {  clearLastProduct, incrementItem, lastItemModified, removeFromCart } from '@/entities/cart/model/cart.slice';
+import { clearLastProduct, incrementItem, lastItemModified, removeFromCart } from '@/entities/cart/model/cart.slice';
 import { useClickOutside } from '@/shared/hooks/useClickOutside';
 import Button from '@/shared/ui/Button';
 import Counter from '@/shared/ui/Counter';
@@ -34,7 +34,7 @@ export default function AddToCartModal() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-            className='fixed bottom-0 left-1/2 translate-x-[-50%] w-full bg-white rounded-t-2xl p-6 max-w-md z-1000 will-change-transform will-change-opacity'
+          className='fixed bottom-0 left-1/2 translate-x-[-50%] w-full bg-white rounded-t-2xl p-6 max-w-md z-1000 will-change-transform will-change-opacity'
         >
 
           <div className='flex justify-between items-center'>
@@ -42,7 +42,11 @@ export default function AddToCartModal() {
               <p className='h3-bold'>${currentItem.price}</p>
               <span className='h6-regular'>Discount up to 10%</span>
             </div>
-            <Counter product={currentItem} handleChange={handleChange} />
+
+            {currentItem.quantity && (
+              <Counter quantity={currentItem.quantity} handleChange={handleChange} />
+            )}
+            
           </div>
 
           <div className='flex justify-between items-center gap-2.5 mt-[19px]'>
