@@ -34,7 +34,7 @@ export default function AddToCartModal() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className='fixed bottom-0 left-[50%] translate-x-[-50%] w-full bg-white rounded-t-md rounded-r-md p-6 max-w-(--breakpoint-md) z-1000'
+            className='fixed bottom-0 left-1/2 translate-x-[-50%] w-full bg-white rounded-t-2xl p-6 max-w-md z-1000 will-change-transform will-change-opacity'
         >
 
           <div className='flex justify-between items-center'>
