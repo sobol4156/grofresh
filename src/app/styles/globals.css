@@ -13,6 +13,8 @@
   --green-700: #005c35;
   --green-800: #004829;
 
+  --orange-500: #ed6c02;
+
   --scroll-thumb: rgba(0, 0, 0, 0.35);
   --scroll-thumb-hover: rgba(0, 0, 0, 0.55);
   --scroll-track: transparent;
@@ -29,6 +31,8 @@
   --color-green-500: var(--green-500);
   --color-green-700: var(--green-700);
   --color-green-800: var(--green-800);
+
+  --color-orange-500: var(--orange-500);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);

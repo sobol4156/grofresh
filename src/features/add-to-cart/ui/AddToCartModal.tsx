@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/app/providers/store-provider/config/hooks'
-import { clearLastProduct, incrementItem, lastItemModified, removeFromCart } from '@/entities/cart/model/cart.slice';
+import { clearLastProduct, incrementItem, removeFromCart } from '@/entities/cart/model/cart.slice';
 import { useClickOutside } from '@/shared/hooks/useClickOutside';
 import Button from '@/shared/ui/Button';
 import Counter from '@/shared/ui/Counter';
@@ -10,7 +10,11 @@ export default function AddToCartModal() {
   const modalRef = useRef<HTMLDivElement>(null)
 
   const dispatch = useAppDispatch()
-  const currentItem = useAppSelector(lastItemModified)
+  const currentItem = useAppSelector((state) => {
+    const selected = state.cart.selectedProduct
+    if (!selected) return null
+    return state.cart.items.find(item => item.id === selected.id) || selected
+  })
 
   useClickOutside(modalRef as React.RefObject<HTMLElement>, () => dispatch(clearLastProduct()), { doubleEvent: true, doubleTapDelay: 300 })
 
@@ -43,10 +47,10 @@ export default function AddToCartModal() {
               <span className='h6-regular'>Discount up to 10%</span>
             </div>
 
-            {currentItem.quantity && (
+            {typeof currentItem.quantity === 'number' && (
               <Counter quantity={currentItem.quantity} handleChange={handleChange} />
             )}
-            
+
           </div>
 
           <div className='flex justify-between items-center gap-2.5 mt-[19px]'>

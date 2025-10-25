@@ -7,7 +7,7 @@ export interface IProduct {
   price: number;
   category: string;
   category_id: number;
-  quantity?: number;
+  quantity: number;
 }
 
 export type Unit = "g" | "kg" | "ml" | "l" | "pcs" | "dozen" | "loaf";

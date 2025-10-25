@@ -3,7 +3,7 @@ import IconButtonMui, { IconButtonProps } from '@mui/material/IconButton';
 
 interface Props extends IconButtonProps {
   children?: ReactNode;
-  variant?: 'default' | 'success',
+  variant?: 'default' | 'success' | 'warning',
   size?: "large" | "small" | "medium"
 }
 
@@ -15,6 +15,10 @@ const VARIANT_STYLES = {
   success: {
     backgroundColor: 'var(--color-green-500)',
     '&:hover': { backgroundColor: 'var(--color-green-700)' }
+  },
+  warning: {
+    backgroundColor: 'var(--color-orange-500)',
+    '&:hover': { backgroundColor: 'var(--color-orange-500)' }
   }
 };
 

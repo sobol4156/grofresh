@@ -1,4 +1,3 @@
-import { IProduct } from "@/entities/product";
 import IconButton from "../IconButton";
 
 interface CounterProps {

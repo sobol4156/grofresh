@@ -23,6 +23,7 @@ const mockProduct: IProduct = {
   src: '/images/products/spinach.png',
   category: '',
   category_id: 1,
+  quantity: 0
 };
 
 describe('Product Component', () => {
@@ -65,7 +66,7 @@ describe('Product Component', () => {
       preloadedState: {
         cart: {
           items: [],
-          lastProductModified: mockProduct
+          selectedProduct: mockProduct
         }
       }
     });
