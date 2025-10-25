@@ -6,7 +6,7 @@ export interface ICartProduct extends IProduct {
   quantity: number
 }
 
-interface ProductState {
+export interface ProductState {
   items: ICartProduct[],
   lastProductModified: IProduct | null
 

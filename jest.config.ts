@@ -68,7 +68,7 @@ const config: Config = {
   // globalTeardown: undefined,
 
   // A set of global variables that need to be available in all test environments
-    globals: {
+  globals: {
     'ts-jest': {
       babelConfig: '<rootDir>/babel.config.jest.js',
     },
@@ -97,7 +97,9 @@ const config: Config = {
   // ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-  // moduleNameMapper: {},
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1'
+  },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
@@ -189,9 +191,9 @@ const config: Config = {
   //   "\\\\node_modules\\\\",
   //   "\\.pnp\\.[^\\\\]+$"
   // ],
-transform: {
-  '^.+\\.[tj]sx?$': ['babel-jest', { configFile: './babel.config.jest.js' }],
-},
+  transform: {
+    '^.+\\.[tj]sx?$': ['babel-jest', { configFile: './babel.config.jest.js' }],
+  },
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
