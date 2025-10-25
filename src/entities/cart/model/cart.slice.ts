@@ -44,13 +44,18 @@ export const cartSlice = createSlice({
 
           return acc;
         }, [] as IProduct[]);
-        state.selectedProduct = {...action.payload, quantity: 0}
+        state.selectedProduct = { ...action.payload, quantity: 0 }
       }
     },
     incrementItem(state, action: PayloadAction<IProduct>) {
-      state.items = state.items.reduce((acc, item) => {
+      const existingItemInCart = state.items.find(el => el.id === action.payload.id)
 
-        if (item.id === action.payload.id) {
+      if(!existingItemInCart){
+        state.items.push(action.payload)
+      }
+
+      state.items = state.items.reduce((acc, item) => {
+        if (item.id === state.selectedProduct?.id) {
           acc.push({ ...item, quantity: item.quantity + 1 });
         } else {
           acc.push(item);
