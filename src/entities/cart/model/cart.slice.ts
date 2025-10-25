@@ -55,7 +55,7 @@ export const cartSlice = createSlice({
       }
 
       state.items = state.items.reduce((acc, item) => {
-        if (item.id === state.selectedProduct?.id) {
+        if (item.id === action.payload?.id) {
           acc.push({ ...item, quantity: item.quantity + 1 });
         } else {
           acc.push(item);

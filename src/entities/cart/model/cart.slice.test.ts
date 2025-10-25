@@ -92,6 +92,16 @@ describe('cartSlice reducers', () => {
     expect(state.items[0].quantity).toBe(3);
   });
 
+  // Проверяет корректное увеличение quantity, если оно 0 и товара нет в корзине
+  test('incrementItem adds new product with quantity 1 if not in cart', () => {
+    const initialState: ProductState = {
+      items: [],
+      selectedProduct: mockProduct
+    };
+    const state = cartReducer(initialState, incrementItem(mockProduct));
+    expect(state.items[0].quantity).toBe(1);
+  });
+
   // Проверяет, что увеличение quantity не изменяет другие товары в корзине
   test('incrementItem does not change other items', () => {
     const initialState: ProductState = {
