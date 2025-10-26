@@ -71,3 +71,7 @@ html,
 body {
   height: 100%;
 }
+
+img {
+  user-select: none;
+}

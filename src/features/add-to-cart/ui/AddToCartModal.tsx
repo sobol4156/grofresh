@@ -4,17 +4,23 @@ import { useClickOutside } from '@/shared/hooks/useClickOutside';
 import Button from '@/shared/ui/Button';
 import Counter from '@/shared/ui/Counter';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useRef } from 'react';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 
 export default function AddToCartModal() {
   const modalRef = useRef<HTMLDivElement>(null)
 
   const dispatch = useAppDispatch()
+  const pathname = usePathname();
   const currentItem = useAppSelector((state) => {
     const selected = state.cart.selectedProduct
     if (!selected) return null
     return state.cart.items.find(item => item.id === selected.id) || selected
   })
+
+  useEffect(() => {
+    dispatch(clearLastProduct());
+  }, [pathname, dispatch]);
 
   useClickOutside(modalRef as React.RefObject<HTMLElement>, () => dispatch(clearLastProduct()), { doubleEvent: true, doubleTapDelay: 300 })
 
