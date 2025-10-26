@@ -11,15 +11,12 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.4",
     "@mui/material": "^7.3.4",
     "@reduxjs/toolkit": "^2.9.2",
     "@testing-library/jest-dom": "^6.9.1",
     "clsx": "^2.1.1",
     "cookie": "^1.0.2",
-    "framer-motion": "^12.23.24",
     "gsap": "^3.13.0",
     "js-cookie": "^3.0.5",
     "next": "15.5.6",
