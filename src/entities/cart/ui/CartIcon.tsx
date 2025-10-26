@@ -12,12 +12,12 @@ const CartBadge = styled(Badge)`
   }
 `;
 
-export default function CartIcon() {
+export default function CartIcon({...props}) {
 
   const cartCount = useAppSelector(selectCartCount)
 
   return (
-    <IconButton>
+    <IconButton {...props}>
       <LocalGroceryStoreIcon className='text-black' />
       <CartBadge badgeContent={cartCount} color="success" overlap="circular" />
     </IconButton>
