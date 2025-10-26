@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { cartReducer, addToCart } from '@/entities/cart/model/cart.slice';
 import Product from './Product';
-import { IProduct } from '../model/types';
+import { IProduct } from '../../model/types';
 
 jest.mock('next/image', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports

@@ -97,7 +97,7 @@ export const cartSlice = createSlice({
 export const { addToCart, removeFromCart, clearLastProduct, incrementItem, toggleSelectedProduct } = cartSlice.actions
 export const cartReducer = cartSlice.reducer
 
-export const selectCartCount = (state: { cart: ProductState }) => state.cart.items.reduce((acc, cur) => acc += cur.quantity, 0)
+export const selectedCartCount = (state: { cart: ProductState }) => state.cart.items.reduce((acc, cur) => acc += cur.quantity, 0)
 export const selectedProduct = (state: { cart: ProductState }) => state.cart.selectedProduct
-export const selectCartItems = (state: { cart: ProductState }) => state.cart.items
+export const selectedCartItems = (state: { cart: ProductState }) => state.cart.items
 export const isInCart = (state: { cart: ProductState }, product: IProduct): boolean => state.cart.items.some(el => el.id === product.id)

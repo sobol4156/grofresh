@@ -1,22 +1,38 @@
 import { useAppDispatch, useAppSelector } from '@/app/providers/store-provider/config/hooks'
-import { clearLastProduct, incrementItem, removeFromCart } from '@/entities/cart/model/cart.slice';
+import { clearLastProduct } from '@/entities/cart/model/cart.slice';
+import { useCartQuantity } from '@/shared/hooks/useCartQuantity';
 import { useClickOutside } from '@/shared/hooks/useClickOutside';
 import Button from '@/shared/ui/Button';
 import Counter from '@/shared/ui/Counter';
 import { AnimatePresence, motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
 export default function AddToCartModal() {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const pathname = usePathname();
+  const { handleQuantityChange } = useCartQuantity();
+
   const modalRef = useRef<HTMLDivElement>(null)
 
-  const dispatch = useAppDispatch()
-  const pathname = usePathname();
+
   const currentItem = useAppSelector((state) => {
     const selected = state.cart.selectedProduct
     if (!selected) return null
     return state.cart.items.find(item => item.id === selected.id) || selected
   })
+
+  const handleCartAction = () => {
+    if (!currentItem) return;
+
+    if (currentItem.quantity && currentItem.quantity > 0) {
+      router.push('/cart');
+    } else {
+      handleQuantityChange(currentItem, 'increment');
+    }
+  };
 
   useEffect(() => {
     dispatch(clearLastProduct());
@@ -24,15 +40,6 @@ export default function AddToCartModal() {
 
   useClickOutside(modalRef as React.RefObject<HTMLElement>, () => dispatch(clearLastProduct()), { doubleEvent: true, doubleTapDelay: 300 })
 
-  const handleChange = (type: 'increment' | 'decrease') => {
-    if (!currentItem) return
-
-    if (type === 'increment') {
-      dispatch(incrementItem(currentItem))
-    } else {
-      dispatch(removeFromCart(currentItem))
-    }
-  }
 
   return (
     <AnimatePresence>
@@ -54,7 +61,7 @@ export default function AddToCartModal() {
             </div>
 
             {typeof currentItem.quantity === 'number' && (
-              <Counter quantity={currentItem.quantity} handleChange={handleChange} />
+              <Counter quantity={currentItem.quantity} handleChange={(type) => handleQuantityChange(currentItem, type)} />
             )}
 
           </div>
@@ -70,8 +77,8 @@ export default function AddToCartModal() {
                 backgroundColor: 'var(--color-light-silver)',
               }
             }}>
-              <span className='text-black h5-bold'>
-                Add to cart
+              <span className='text-black h5-bold' onClick={handleCartAction}>
+                {currentItem.quantity ? 'Go to cart' : 'Add to cart'}
               </span>
             </Button>
             <Button sx={{

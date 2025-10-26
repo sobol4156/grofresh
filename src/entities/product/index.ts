@@ -1,5 +1,5 @@
-import Product from "./ui";
+import { Product, ProductCart } from "./ui";
 import type { IProduct } from './model/types'
 
 
-export { Product, IProduct }
+export { Product, ProductCart, IProduct }

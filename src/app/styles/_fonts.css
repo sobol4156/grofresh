@@ -53,6 +53,13 @@
   line-height: 15px;
 }
 
+.medium-regular {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+}
+
 .medium-bold {
   font-style: normal;
   font-weight: 700;

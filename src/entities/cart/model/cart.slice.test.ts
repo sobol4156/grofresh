@@ -1,4 +1,4 @@
-import { cartReducer, addToCart, incrementItem, removeFromCart, clearLastProduct, selectCartCount, selectCartItems, selectedProduct, ProductState, toggleSelectedProduct } from './cart.slice';
+import { cartReducer, addToCart, incrementItem, removeFromCart, clearLastProduct, selectedCartCount, selectedCartItems, selectedProduct, ProductState, toggleSelectedProduct } from './cart.slice';
 import { IProduct } from '@/entities/product';
 
 // Моковые товары для тестов
@@ -175,11 +175,11 @@ describe('cartSlice reducers', () => {
 describe('cartSlice selectors', () => {
 
   // Проверяет получение всех товаров
-  test('selectCartItems returns all items', () => {
+  test('selectedCartItems returns all items', () => {
     const state: { cart: ProductState } = { cart: { items: [], selectedProduct: null } };
     state.cart = cartReducer(state.cart, addToCart(mockProduct));
     state.cart = cartReducer(state.cart, addToCart(anotherProduct));
-    const items = selectCartItems(state);
+    const items = selectedCartItems(state);
     expect(items).toHaveLength(2);
     expect(items.map(i => i.id)).toEqual([mockProduct.id, anotherProduct.id]);
   });
@@ -195,7 +195,7 @@ describe('cartSlice selectors', () => {
   });
 
   // Проверяет корректную сумму quantity
-  test('selectCartCount sums quantities correctly', () => {
+  test('selectedCartCount sums quantities correctly', () => {
     const state = {
       cart: {
         items: [
@@ -205,12 +205,12 @@ describe('cartSlice selectors', () => {
         selectedProduct: null
       }
     };
-    expect(selectCartCount(state)).toBe(5);
+    expect(selectedCartCount(state)).toBe(5);
   });
 
   // Проверяет поведение при пустой корзине
-  test('selectCartCount returns 0 for empty cart', () => {
+  test('selectedCartCount returns 0 for empty cart', () => {
     const state = { cart: { items: [], selectedProduct: null } };
-    expect(selectCartCount(state)).toBe(0);
+    expect(selectedCartCount(state)).toBe(0);
   });
 });
