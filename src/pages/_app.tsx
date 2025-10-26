@@ -5,7 +5,7 @@ import { ThemeProvider } from "@mui/material";
 import { theme } from "@/shared/theme";
 import Head from "next/head";
 import { StoreProvider } from "@/app/providers/store-provider";
-import { AddToCartModal } from "@/features/add-to-cart";
+import AddToCartModal from "@/features/add-to-cart/ui/AddToCartModal";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

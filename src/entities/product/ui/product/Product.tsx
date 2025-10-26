@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { IProduct } from "../../model/types";
 import IconButton from "@/shared/ui/IconButton";
 import { useAppDispatch, useAppSelector } from "@/app/providers/store-provider/config/hooks";
-import { addToCart, isInCart, selectedProduct, toggleSelectedProduct } from "@/entities/cart/model/cart.slice";
+import { toggleCartItem, isInCart, selectedProduct, toggleSelectedProduct } from "@/entities/cart/model/cart.slice";
 
 interface ProductProps {
   product: IProduct;
@@ -21,7 +21,7 @@ export default function Product({ product }: ProductProps) {
 
   const toggleProductInCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
-    dispatch(addToCart(product))
+    dispatch(toggleCartItem(product))
   }
 
   const isCurrent = () => product.id === currentItem?.id

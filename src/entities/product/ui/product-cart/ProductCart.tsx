@@ -2,6 +2,8 @@ import Counter from "@/shared/ui/Counter";
 import Image from "next/image";
 import { IProduct } from "../../model/types";
 import { useCartQuantity } from "@/shared/hooks/useCartQuantity";
+import { useAppDispatch } from "@/app/providers/store-provider/config/hooks";
+import { toggleCartItem } from "@/entities/cart/model/cart.slice";
 
 interface ProductCartProps {
   product: IProduct
@@ -9,6 +11,11 @@ interface ProductCartProps {
 
 export default function ProductCart({ product }: ProductCartProps) {
   const { handleQuantityChange } = useCartQuantity();
+  const dispatch = useAppDispatch();
+
+  const removeProduct = () => {
+    dispatch(toggleCartItem(product))
+  }
 
   return (
     <div className="flex gap-2.5 p-4 rounded-[30px]" style={{ boxShadow: '-1px -5px 61px rgba(139, 138, 138, 0.12)' }}>
@@ -24,10 +31,10 @@ export default function ProductCart({ product }: ProductCartProps) {
         <div className="flex justify-between">
           <div className="flex flex-col gap-2.5">
             <p className="h5-bold">{product.name}</p>
-            <span className="medium-regular">{product.unit} {product.unitValue}</span>
+            <span className="medium-regular">{product.unitValue} {product.unit}</span>
           </div>
 
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={removeProduct}>
             <path d="M18.0002 6L6.00015 18" stroke="black" strokeWidth="1.48571" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M6.00015 6L18.0002 18" stroke="black" strokeWidth="1.48571" strokeLinecap="round" strokeLinejoin="round" />
           </svg>

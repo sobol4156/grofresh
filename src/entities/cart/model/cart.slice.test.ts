@@ -1,4 +1,4 @@
-import { cartReducer, addToCart, incrementItem, removeFromCart, clearLastProduct, selectedCartCount, selectedCartItems, selectedProduct, ProductState, toggleSelectedProduct } from './cart.slice';
+import { cartReducer, toggleCartItem, incrementItem, decrementOrRemoveItem, clearSelectedProduct, selectedCartCount, selectedCartItems, selectedProduct, ProductState, toggleSelectedProduct } from './cart.slice';
 import { IProduct } from '@/entities/product';
 
 // Моковые товары для тестов
@@ -29,15 +29,15 @@ const anotherProduct: IProduct = {
 describe('cartSlice reducers', () => {
 
   // Проверяет добавление нового товара в корзину и установку selectedProduct
-  test('addToCart adds a new item with quantity 1 and sets selectedProduct', () => {
-    const state = cartReducer(undefined, addToCart(mockProduct));
+  test('toggleCartItem adds a new item with quantity 1 and sets selectedProduct', () => {
+    const state = cartReducer(undefined, toggleCartItem(mockProduct));
     expect(state.items).toHaveLength(1);
     expect(state.items[0].quantity).toBe(1);
     expect(state.selectedProduct?.id).toBe(mockProduct.id);
   });
 
   // Проверяет удаление товара из корзины, если он уже выбран
-  test('addToCart removes item from cart when it is already selected', () => {
+  test('toggleCartItem removes item from cart when it is already selected', () => {
     const initialState: ProductState = {
       items: [
         { ...mockProduct, quantity: 2 },
@@ -46,7 +46,7 @@ describe('cartSlice reducers', () => {
       selectedProduct: { ...mockProduct, quantity: 2 }
     };
 
-    const state = cartReducer(initialState, addToCart(mockProduct));
+    const state = cartReducer(initialState, toggleCartItem(mockProduct));
 
     expect(state.items.find(i => i.id === mockProduct.id)).toBeUndefined();
     expect(state.items.find(i => i.id === anotherProduct.id)).toBeDefined();
@@ -54,29 +54,29 @@ describe('cartSlice reducers', () => {
   });
 
   // Проверяет, что если товар уже есть, но не выбран, selectedProduct устанавливается с quantity 0
-  test('addToCart existing item not selected sets selectedProduct to quantity 0', () => {
+  test('toggleCartItem existing item not selected sets selectedProduct to quantity 0', () => {
     const initialState: ProductState = {
       items: [{ ...mockProduct, quantity: 2 }],
       selectedProduct: null
     };
 
-    const state = cartReducer(initialState, addToCart(mockProduct));
+    const state = cartReducer(initialState, toggleCartItem(mockProduct));
 
     expect(state.items).toHaveLength(0);
     expect(state.selectedProduct).toEqual({ ...mockProduct, quantity: 0 });
   });
 
   // Проверяет повторное добавление одного и того же товара (toggle)
-  test('addToCart removes item if it already exists', () => {
-    let state = cartReducer(undefined, addToCart(mockProduct));
-    state = cartReducer(state, addToCart(mockProduct)); // toggle remove
+  test('toggleCartItem removes item if it already exists', () => {
+    let state = cartReducer(undefined, toggleCartItem(mockProduct));
+    state = cartReducer(state, toggleCartItem(mockProduct)); // toggle remove
     expect(state.items).toHaveLength(0);
     expect(state.selectedProduct).toBeNull();
   });
 
   // Проверяет увеличение quantity товара
   test('incrementItem increases quantity of existing item', () => {
-    let state = cartReducer(undefined, addToCart(mockProduct));
+    let state = cartReducer(undefined, toggleCartItem(mockProduct));
     state = cartReducer(state, incrementItem(mockProduct));
     expect(state.items[0].quantity).toBe(2);
     expect(state.selectedProduct?.id).toBe(mockProduct.id);
@@ -117,14 +117,14 @@ describe('cartSlice reducers', () => {
   });
 
   // Проверяет уменьшение quantity и удаление товара при достижении 0
-  test('removeFromCart decreases quantity and removes item when quantity reaches 0', () => {
-    let state = cartReducer(undefined, addToCart(mockProduct)); // quantity 1
+  test('decrementOrRemoveItem decreases quantity and removes item when quantity reaches 0', () => {
+    let state = cartReducer(undefined, toggleCartItem(mockProduct)); // quantity 1
     state = cartReducer(state, incrementItem(mockProduct)); // quantity 2
-    state = cartReducer(state, removeFromCart(mockProduct)); // quantity 1
+    state = cartReducer(state, decrementOrRemoveItem(mockProduct)); // quantity 1
     expect(state.items[0].quantity).toBe(1);
     expect(state.selectedProduct?.id).toBe(mockProduct.id);
 
-    state = cartReducer(state, removeFromCart(mockProduct)); // remove completely
+    state = cartReducer(state, decrementOrRemoveItem(mockProduct)); // remove completely
     expect(state.items).toHaveLength(0);
     expect(state.selectedProduct).toBeNull();
   });
@@ -155,18 +155,18 @@ describe('cartSlice reducers', () => {
   });
 
   // Проверяет, что удаление одного товара не влияет на другие товары
-  test('removeFromCart does not affect other items', () => {
-    let state = cartReducer(undefined, addToCart(mockProduct));
-    state = cartReducer(state, addToCart(anotherProduct));
-    state = cartReducer(state, removeFromCart(mockProduct));
+  test('decrementOrRemoveItem does not affect other items', () => {
+    let state = cartReducer(undefined, toggleCartItem(mockProduct));
+    state = cartReducer(state, toggleCartItem(anotherProduct));
+    state = cartReducer(state, decrementOrRemoveItem(mockProduct));
     expect(state.items).toHaveLength(1);
     expect(state.items[0].id).toBe(anotherProduct.id);
   });
 
-  // Проверяет сброс selectedProduct через clearLastProduct
-  test('clearLastProduct sets selectedProduct to null', () => {
-    let state = cartReducer(undefined, addToCart(mockProduct));
-    state = cartReducer(state, clearLastProduct());
+  // Проверяет сброс selectedProduct через clearSelectedProduct
+  test('clearSelectedProduct sets selectedProduct to null', () => {
+    let state = cartReducer(undefined, toggleCartItem(mockProduct));
+    state = cartReducer(state, clearSelectedProduct());
     expect(state.selectedProduct).toBeNull();
   });
 });
@@ -177,8 +177,8 @@ describe('cartSlice selectors', () => {
   // Проверяет получение всех товаров
   test('selectedCartItems returns all items', () => {
     const state: { cart: ProductState } = { cart: { items: [], selectedProduct: null } };
-    state.cart = cartReducer(state.cart, addToCart(mockProduct));
-    state.cart = cartReducer(state.cart, addToCart(anotherProduct));
+    state.cart = cartReducer(state.cart, toggleCartItem(mockProduct));
+    state.cart = cartReducer(state.cart, toggleCartItem(anotherProduct));
     const items = selectedCartItems(state);
     expect(items).toHaveLength(2);
     expect(items.map(i => i.id)).toEqual([mockProduct.id, anotherProduct.id]);
@@ -187,10 +187,10 @@ describe('cartSlice selectors', () => {
   // Проверяет возвращение последнего выбранного товара
   test('selectedProduct returns last modified product', () => {
     const state: { cart: ProductState } = { cart: { items: [], selectedProduct: null } };
-    state.cart = cartReducer(state.cart, addToCart(mockProduct));
+    state.cart = cartReducer(state.cart, toggleCartItem(mockProduct));
     expect(selectedProduct(state)?.id).toBe(mockProduct.id);
 
-    state.cart = cartReducer(state.cart, addToCart(anotherProduct));
+    state.cart = cartReducer(state.cart, toggleCartItem(anotherProduct));
     expect(selectedProduct(state)?.id).toBe(anotherProduct.id);
   });
 

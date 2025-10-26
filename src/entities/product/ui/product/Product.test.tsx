@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { cartReducer, addToCart } from '@/entities/cart/model/cart.slice';
+import { cartReducer, toggleCartItem } from '@/entities/cart/model/cart.slice';
 import Product from './Product';
 import { IProduct } from '../../model/types';
 
@@ -44,7 +44,7 @@ describe('Product Component', () => {
     expect(img.src).toContain('/images/products/spinach.png');
   });
 
-  test('dispatches addToCart on button click', () => {
+  test('dispatches toggleCartItem on button click', () => {
     const store = configureStore({ reducer: { cart: cartReducer } });
     store.dispatch = jest.fn();
 
@@ -57,7 +57,7 @@ describe('Product Component', () => {
     const button = screen.getByRole('button');
     fireEvent.click(button);
 
-    expect(store.dispatch).toHaveBeenCalledWith(addToCart(mockProduct));
+    expect(store.dispatch).toHaveBeenCalledWith(toggleCartItem(mockProduct));
   });
 
   test('applies outline class if product is current', () => {

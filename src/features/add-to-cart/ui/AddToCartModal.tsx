@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/app/providers/store-provider/config/hooks'
-import { clearLastProduct } from '@/entities/cart/model/cart.slice';
+import { clearSelectedProduct } from '@/entities/cart/model/cart.slice';
 import { useCartQuantity } from '@/shared/hooks/useCartQuantity';
 import { useClickOutside } from '@/shared/hooks/useClickOutside';
 import Button from '@/shared/ui/Button';
@@ -36,10 +36,10 @@ export default function AddToCartModal() {
   };
 
   useEffect(() => {
-    dispatch(clearLastProduct());
+    dispatch(clearSelectedProduct());
   }, [pathname, dispatch]);
 
-  useClickOutside(modalRef as React.RefObject<HTMLElement>, () => dispatch(clearLastProduct()), { doubleEvent: true, doubleTapDelay: 300 })
+  useClickOutside(modalRef as React.RefObject<HTMLElement>, () => dispatch(clearSelectedProduct()), { doubleEvent: true, doubleTapDelay: 300 })
 
 
   return (

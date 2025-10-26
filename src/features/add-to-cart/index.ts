@@ -1,3 +1,3 @@
-import AddToCartModal from "./ui/AddToCartModal";
+import toggleCartItemModal from "./ui/toggleCartItemModal";
 
-export { AddToCartModal }
+export { toggleCartItemModal }

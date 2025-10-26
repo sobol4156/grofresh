@@ -1,5 +1,5 @@
 import { useAppDispatch } from '@/app/providers/store-provider/config/hooks';
-import { incrementItem, removeFromCart } from '@/entities/cart/model/cart.slice';
+import { incrementItem, decrementOrRemoveItem } from '@/entities/cart/model/cart.slice';
 import { IProduct } from '@/entities/product';
 
 export function useCartQuantity() {
@@ -11,7 +11,7 @@ export function useCartQuantity() {
     if (type === 'increment') {
       dispatch(incrementItem(item));
     } else {
-      dispatch(removeFromCart(item));
+      dispatch(decrementOrRemoveItem(item));
     }
   };
 
