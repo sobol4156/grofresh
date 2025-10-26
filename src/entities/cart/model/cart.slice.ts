@@ -76,13 +76,13 @@ export const cartSlice = createSlice({
 
       state.selectedProduct = state.items.find(el => el.id === action.payload.id) || null;
     },
-    clearSelectedProduct(state) {
+    clearLastProduct(state) {
       state.selectedProduct = null
     },
   },
 })
 
-export const { toggleCartItem, decrementOrRemoveItem, clearSelectedProduct, incrementItem, toggleSelectedProduct } = cartSlice.actions
+export const { toggleCartItem, decrementOrRemoveItem, clearLastProduct, incrementItem, toggleSelectedProduct } = cartSlice.actions
 export const cartReducer = cartSlice.reducer
 
 export const selectedCartCount = (state: { cart: ProductState }) => state.cart.items.reduce((acc, cur) => acc += cur.quantity, 0)

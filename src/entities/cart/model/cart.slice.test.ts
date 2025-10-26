@@ -1,4 +1,4 @@
-import { cartReducer, toggleCartItem, incrementItem, decrementOrRemoveItem, clearSelectedProduct, selectedCartCount, selectedCartItems, selectedProduct, ProductState, toggleSelectedProduct } from './cart.slice';
+import { cartReducer, toggleCartItem, incrementItem, decrementOrRemoveItem, clearLastProduct, selectedCartCount, selectedCartItems, selectedProduct, ProductState, toggleSelectedProduct } from './cart.slice';
 import { IProduct } from '@/entities/product';
 
 // Моковые товары для тестов
@@ -163,10 +163,10 @@ describe('cartSlice reducers', () => {
     expect(state.items[0].id).toBe(anotherProduct.id);
   });
 
-  // Проверяет сброс selectedProduct через clearSelectedProduct
-  test('clearSelectedProduct sets selectedProduct to null', () => {
+  // Проверяет сброс selectedProduct через clearLastProduct
+  test('clearLastProduct sets selectedProduct to null', () => {
     let state = cartReducer(undefined, toggleCartItem(mockProduct));
-    state = cartReducer(state, clearSelectedProduct());
+    state = cartReducer(state, clearLastProduct());
     expect(state.selectedProduct).toBeNull();
   });
 });
