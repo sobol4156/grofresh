@@ -18,7 +18,7 @@ const VARIANT_STYLES = {
   },
   warning: {
     backgroundColor: 'var(--color-orange-500)',
-    '&:hover': { backgroundColor: 'var(--color-orange-500)' }
+    '&:hover': { backgroundColor: 'var(--color-orange-700)' }
   }
 };
 

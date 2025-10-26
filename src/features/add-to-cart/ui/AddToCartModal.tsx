@@ -27,9 +27,10 @@ export default function AddToCartModal() {
   const handleCartAction = () => {
     if (!currentItem) return;
 
-    if (currentItem.quantity && currentItem.quantity > 0) {
+    if (currentItem.quantity > 0) {
       router.push('/cart');
     } else {
+
       handleQuantityChange(currentItem, 'increment');
     }
   };
@@ -43,7 +44,7 @@ export default function AddToCartModal() {
 
   return (
     <AnimatePresence>
-      {currentItem && (
+      {currentItem && pathname === '/' && (
         <motion.div
           ref={modalRef}
           key={currentItem.id}
@@ -76,8 +77,8 @@ export default function AddToCartModal() {
               '&:hover': {
                 backgroundColor: 'var(--color-light-silver)',
               }
-            }}>
-              <span className='text-black h5-bold' onClick={handleCartAction}>
+            }} onClick={handleCartAction}>
+              <span className='text-black h5-bold'>
                 {currentItem.quantity ? 'Go to cart' : 'Add to cart'}
               </span>
             </Button>
