@@ -3,7 +3,7 @@ import { MOCK_PRODUCTS } from "@/entities/product/config/mock"
 
 export default function PopularNow() {
   return (
-    <div className="mt-[12px]">
+    <div className="mt-3">
       <div className="container">
         <div className="flex justify-between ">
           <h4 className="h4-bold">Popular now</h4>
