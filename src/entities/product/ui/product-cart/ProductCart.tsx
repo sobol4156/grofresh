@@ -18,7 +18,7 @@ export default function ProductCart({ product }: ProductCartProps) {
   }
 
   return (
-    <div className="flex gap-2.5 p-4 rounded-[30px]" style={{ boxShadow: '-1px -5px 61px rgba(139, 138, 138, 0.12)' }}>
+    <div className="shadow flex gap-2.5 p-4 rounded-[30px]">
       <div className="bg-flash-white rounded-[20px] w-fit p-4">
         <Image
           src={product.src}

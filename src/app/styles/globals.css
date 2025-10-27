@@ -69,6 +69,10 @@ body {
   max-width: var(--breakpoint-md);
 }
 
+.shadow {
+  box-shadow: -1px -5px 61px rgba(139, 138, 138, 0.12);
+}
+
 html,
 body {
   height: 100%;

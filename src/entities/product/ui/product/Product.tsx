@@ -27,8 +27,8 @@ export default function Product({ product }: ProductProps) {
   const isCurrent = () => product.id === currentItem?.id
 
   return (
-    <div data-testid="product-wrapper" className={`bg-white flex-1 min-w-[150px] max-w-[180px] p-2.5 flex flex-col gap-2.5 rounded-[30px] ${isCurrent() ? 'outline outline-green-500 ' : ''}`} style={{ boxShadow: '-1px -5px 61px rgba(139, 138, 138, 0.12)' }}>
-      <div className="bg-white rounded-[20px] flex justify-center" style={{ boxShadow: '-1px -5px 61px rgba(139, 138, 138, 0.12)' }}>
+    <div data-testid="product-wrapper" className={`shadow bg-white flex-1 min-w-[150px] max-w-[180px] p-2.5 flex flex-col gap-2.5 rounded-[30px] ${isCurrent() ? 'outline outline-green-500 ' : ''}`}>
+      <div className="shadow bg-white rounded-[20px] flex justify-center">
         <Image
           src={product.src}
           width={100}
