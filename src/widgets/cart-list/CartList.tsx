@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useAppSelector } from "@/app/providers/store-provider/config/hooks";
-import { selectedCartCount, selectedCartItems } from "@/entities/cart/model/cart.slice";
+import { allPriceCart, selectedCartQuantity, selectedCartItems, selectedCartCount } from "@/entities/cart/model/cart.slice";
 import { ProductCart } from "@/entities/product";
 import Button from "@/shared/ui/Button";
-import BottomNavBar from "@/widgets/bottom-nav-bar";
 
 const showDefaultItems = 3
 
@@ -11,13 +10,15 @@ export default function CartList() {
   const [isAll, isAllSet] = useState(false)
 
   const cartItems = useAppSelector(selectedCartItems)
-  const cartItemsLength = useAppSelector(selectedCartCount)
+  const cartUniqueItemsCount = useAppSelector(selectedCartCount);
+  const cartTotalQuantity = useAppSelector(selectedCartQuantity);
+  const allPrice = useAppSelector(allPriceCart)
 
   return (
     <div className="flex flex-col">
 
       <div className="flex justify-between items-center">
-        <h4 className="h4-bold">{cartItemsLength} items here</h4>
+        <h4 className="h4-bold">{cartTotalQuantity} items here</h4>
         <span className="small-regular" >more</span>
       </div>
 
@@ -29,7 +30,7 @@ export default function CartList() {
           ))}
       </div>
 
-      {cartItemsLength > showDefaultItems && (
+      {cartUniqueItemsCount > showDefaultItems && (
         <div
           className="mt-[22px] flex items-center gap-[18px] cursor-pointer select-none"
           onClick={() => isAllSet((prev) => !prev)}
@@ -46,7 +47,7 @@ export default function CartList() {
 
       <div className="mt-[7px] py-6">
         <div className="flex flex-col gap-[5px]">
-          <p className="h3-bold">Total : $10.45</p>
+          <p className="h3-bold">Total : ${allPrice}</p>
           <span className="h6-regular">Discount up to 5%</span>
         </div>
 
@@ -64,8 +65,6 @@ export default function CartList() {
             Checkout now
           </span>
         </Button>
-
-        <BottomNavBar className='mt-2.5' />
       </div>
     </div>
   )

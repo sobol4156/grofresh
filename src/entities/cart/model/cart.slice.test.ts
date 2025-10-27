@@ -1,4 +1,4 @@
-import { cartReducer, toggleCartItem, incrementItem, decrementOrRemoveItem, clearLastProduct, selectedCartCount, selectedCartItems, selectedProduct, ProductState, toggleSelectedProduct } from './cart.slice';
+import { cartReducer, toggleCartItem, incrementItem, decrementOrRemoveItem, clearLastProduct, selectedCartQuantity, selectedCartItems, selectedProduct, ProductState, toggleSelectedProduct, selectedCartCount, allPriceCart } from './cart.slice';
 import { IProduct } from '@/entities/product';
 
 // Моковые товары для тестов
@@ -7,11 +7,11 @@ const mockProduct: IProduct = {
   name: 'Spinach',
   unitValue: 1,
   unit: 'kg',
-  price: 10,
+  price: 10.5,
   src: '/images/products/spinach.png',
   category: '',
   category_id: 1,
-  quantity: 0
+  quantity: 1
 };
 
 const anotherProduct: IProduct = {
@@ -19,11 +19,11 @@ const anotherProduct: IProduct = {
   name: 'Tomato',
   unitValue: 1,
   unit: 'kg',
-  price: 5,
+  price: 5.21,
   src: '/images/products/tomato.png',
   category: '',
   category_id: 2,
-  quantity: 0
+  quantity: 1
 };
 
 describe('cartSlice reducers', () => {
@@ -53,17 +53,25 @@ describe('cartSlice reducers', () => {
     expect(state.selectedProduct).toBeNull();
   });
 
-  // Проверяет, что если товар уже есть, но не выбран, selectedProduct устанавливается с quantity 0
+  // Проверяет, что при повторном нажатии товар удаляется из корзины и не остаётся в списке
   test('toggleCartItem existing item not selected sets selectedProduct to quantity 0', () => {
     const initialState: ProductState = {
-      items: [{ ...mockProduct, quantity: 2 }],
+      items: [
+        { ...mockProduct, quantity: 2 },
+        { ...anotherProduct, quantity: 1 }
+      ],
       selectedProduct: null
     };
 
     const state = cartReducer(initialState, toggleCartItem(mockProduct));
 
-    expect(state.items).toHaveLength(0);
+    const remainingIds = state.items.map(item => item.id);
+    expect(remainingIds).not.toContain(mockProduct.id);
+    expect(remainingIds).toContain(anotherProduct.id);
+
     expect(state.selectedProduct).toEqual({ ...mockProduct, quantity: 0 });
+
+    expect(state.items).toHaveLength(1);
   });
 
   // Проверяет повторное добавление одного и того же товара (toggle)
@@ -127,6 +135,27 @@ describe('cartSlice reducers', () => {
     state = cartReducer(state, decrementOrRemoveItem(mockProduct)); // remove completely
     expect(state.items).toHaveLength(0);
     expect(state.selectedProduct).toBeNull();
+  });
+
+
+  // Проверяет поведение decrementOrRemoveItem, если товар для удаления не найден в корзине
+  test('decrementOrRemoveItem does not change the shopping cart if the current product is not found.', () => {
+    // Добавляем mockProduct в корзину
+    let state = cartReducer(undefined, toggleCartItem(mockProduct));
+    // Сохраняем копию исходного состояния для сравнения
+    const initialItems = [...state.items];
+
+    // Пытаемся уменьшить или удалить другой товар (anotherProduct), которого нет в корзине
+    state = cartReducer(state, decrementOrRemoveItem(anotherProduct));
+
+    // Длина корзины осталась прежней
+    expect(state.items).toHaveLength(initialItems.length);
+
+    // Содержимое корзины не изменилось
+    expect(state.items).toEqual(initialItems);
+
+    // Можно дополнительно проверить, что товар в корзине — именно mockProduct
+    expect(state.items[0]).toEqual(mockProduct);
   });
 
   // Тесты для toggleSelectedProduct
@@ -195,7 +224,7 @@ describe('cartSlice selectors', () => {
   });
 
   // Проверяет корректную сумму quantity
-  test('selectedCartCount sums quantities correctly', () => {
+  test('selectedCartQuantity sums quantities correctly', () => {
     const state = {
       cart: {
         items: [
@@ -205,12 +234,34 @@ describe('cartSlice selectors', () => {
         selectedProduct: null
       }
     };
-    expect(selectedCartCount(state)).toBe(5);
+    expect(selectedCartQuantity(state)).toBe(5);
   });
 
   // Проверяет поведение при пустой корзине
-  test('selectedCartCount returns 0 for empty cart', () => {
+  test('selectedCartQuantity returns 0 for empty cart', () => {
     const state = { cart: { items: [], selectedProduct: null } };
-    expect(selectedCartCount(state)).toBe(0);
+    expect(selectedCartQuantity(state)).toBe(0);
   });
+
+  // Проверяет количество разных товаров в корзине
+  test('selectedCartCount returns the correct number of unique items', () => {
+    const state = { cart: { items: [], selectedProduct: null } };
+
+    expect(selectedCartCount(state)).toBe(0);
+
+    const state2 = { cart: { items: [mockProduct, anotherProduct], selectedProduct: null } };
+
+    expect(selectedCartCount(state2)).toBe(2);
+  });
+
+  // allPriceCart возвращает корректные цены всех товаров(и их сумарное количество) в корзине
+  test('allPriceCart returns the correct prices of all products (and their total quantity) in the shopping cart', () => {
+    const state = { cart: { items: [{ ...mockProduct, price: 2.51 }, { ...anotherProduct, price: 2.52 }], selectedProduct: null } };
+
+    expect(allPriceCart(state)).toBe('5.03')
+
+    const state2 = { cart: { items: [{ ...mockProduct, price: 2.51 }, { ...anotherProduct, price: 2.52, quantity: 2 }], selectedProduct: null } };
+
+    expect(allPriceCart(state2)).toBe('7.55')
+  })
 });

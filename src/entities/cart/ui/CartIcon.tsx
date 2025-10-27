@@ -3,7 +3,7 @@ import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import { styled } from '@mui/material/styles';
 import Badge, { badgeClasses } from '@mui/material/Badge';
 import { useAppSelector } from '@/app/providers/store-provider/config/hooks'
-import { selectedCartCount } from '@/entities/cart/model/cart.slice'
+import { selectedCartQuantity } from '@/entities/cart/model/cart.slice'
 
 const CartBadge = styled(Badge)`
   & .${badgeClasses.badge} {
@@ -14,7 +14,7 @@ const CartBadge = styled(Badge)`
 
 export default function CartIcon({ ...props }) {
 
-  const cartCount = useAppSelector(selectedCartCount)
+  const cartCount = useAppSelector(selectedCartQuantity)
 
   return (
     <IconButton {...props}>

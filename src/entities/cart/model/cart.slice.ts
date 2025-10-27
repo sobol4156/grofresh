@@ -85,7 +85,9 @@ export const cartSlice = createSlice({
 export const { toggleCartItem, decrementOrRemoveItem, clearLastProduct, incrementItem, toggleSelectedProduct } = cartSlice.actions
 export const cartReducer = cartSlice.reducer
 
-export const selectedCartCount = (state: { cart: ProductState }) => state.cart.items.reduce((acc, cur) => acc += cur.quantity, 0)
+export const selectedCartQuantity = (state: { cart: ProductState }) => state.cart.items.reduce((acc, cur) => acc += cur.quantity, 0)
 export const selectedProduct = (state: { cart: ProductState }) => state.cart.selectedProduct
 export const selectedCartItems = (state: { cart: ProductState }) => state.cart.items
+export const selectedCartCount = (state: { cart: ProductState }) => state.cart.items.length
 export const isInCart = (state: { cart: ProductState }, product: IProduct): boolean => state.cart.items.some(el => el.id === product.id)
+export const allPriceCart = (state: { cart: ProductState }) => state.cart.items.reduce((acc, el) => acc += el.price * el.quantity, 0).toFixed(2)
