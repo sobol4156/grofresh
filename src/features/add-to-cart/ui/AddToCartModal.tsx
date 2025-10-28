@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/app/providers/store-provider/config/hooks'
 import { clearLastProduct } from '@/entities/cart/model/cart.slice';
-import { useCartQuantity } from '@/shared/hooks/useCartQuantity';
-import { useClickOutside } from '@/shared/hooks/useClickOutside';
+import { useCartQuantity } from '@/shared/hooks/useCartQuantity/useCartQuantity';
+import { useClickOutside } from '@/shared/hooks/useClickOutside/useClickOutside';
 import Button from '@/shared/ui/Button';
 import Counter from '@/shared/ui/Counter';
 import { usePathname } from 'next/navigation';

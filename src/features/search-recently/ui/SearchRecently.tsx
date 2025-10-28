@@ -1,8 +1,8 @@
-import useDebounce from "@/shared/hooks/useDebounce";
+import useDebounce from "@/shared/hooks/useDebounce/useDebounce";
 import Input from "@/shared/ui/Input";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ClearIcon from '@mui/icons-material/Clear';
-import { useClickOutside } from "@/shared/hooks/useClickOutside";
+import { useClickOutside } from "@/shared/hooks/useClickOutside/useClickOutside";
 import gsap from 'gsap'
 
 type RecentItem = {

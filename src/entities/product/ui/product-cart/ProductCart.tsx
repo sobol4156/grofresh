@@ -1,7 +1,7 @@
 import Counter from "@/shared/ui/Counter";
 import Image from "next/image";
 import { IProduct } from "../../model/types";
-import { useCartQuantity } from "@/shared/hooks/useCartQuantity";
+import { useCartQuantity } from "@/shared/hooks/useCartQuantity/useCartQuantity";
 import { useAppDispatch } from "@/app/providers/store-provider/config/hooks";
 import { toggleCartItem } from "@/entities/cart/model/cart.slice";
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-interface UseClickOutsideOptions {
+export interface UseClickOutsideOptions {
   doubleEvent?: boolean;           // если true — двойной клик / даблтап
   doubleTapDelay?: number;         // интервал для double-tap (мс)
 }
@@ -21,6 +21,7 @@ export function useClickOutside<T extends HTMLElement>(
   options?: UseClickOutsideOptions
 ) {
   const lastTap = useRef(0);
+  const doubleTapDelay = options?.doubleTapDelay ?? 300;
 
   useEffect(() => {
     const handleClickOutside = (event: Event) => {
@@ -33,7 +34,7 @@ export function useClickOutside<T extends HTMLElement>(
       const currentTime = new Date().getTime();
       const tapLength = currentTime - lastTap.current;
 
-      if (tapLength < (options?.doubleTapDelay ?? 300) && tapLength > 0) {
+      if (tapLength < doubleTapDelay  && tapLength > 0) {
         if (ref.current && !ref.current.contains(event.target as Node)) {
           callback();
         }
@@ -57,5 +58,5 @@ export function useClickOutside<T extends HTMLElement>(
         document.removeEventListener('touchstart', handleClickOutside as EventListener);
       };
     }
-  }, [ref, callback, options?.doubleEvent, options?.doubleTapDelay]);
+  }, [ref, callback, options?.doubleEvent, doubleTapDelay]);
 }
