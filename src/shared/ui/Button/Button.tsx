@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
-import { Button as ButtonMui, SxProps, Theme, ButtonProps as MuiButtonProps  } from "@mui/material";
+import { Button as ButtonMui, SxProps, Theme, ButtonProps as MuiButtonProps } from "@mui/material";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -9,12 +9,12 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void
 }
 
-export default function Button({ children, variant = 'contained', sx, color, onClick }: Props) {
+export default function Button({ children, variant = 'contained', sx, onClick, ...props }: Props) {
 
   const defaultSx: SxProps<Theme> = {
     height: '33px',
     ...sx
   };
 
-  return <ButtonMui variant={variant} color={color} sx={defaultSx} onClick={onClick}>{children}</ButtonMui>
+  return <ButtonMui variant={variant} sx={defaultSx} onClick={onClick} {...props}>{children}</ButtonMui>
 }

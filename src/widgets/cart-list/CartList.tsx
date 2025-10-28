@@ -4,10 +4,14 @@ import { allPriceCart, selectedCartQuantity, selectedCartItems, selectedCartCoun
 import { ProductCart } from "@/entities/product";
 import Button from "@/shared/ui/Button";
 import ActionOfferCard from "@/shared/ui/ActionOfferCard";
+import { useRouter } from "next/router";
+import BottomNavBar from "@/widgets/bottom-nav-bar";
+import PaymentCard from "@/shared/ui/PaymentCard";
 
 const showDefaultItems = 3
 
 export default function CartList() {
+  const router = useRouter()
   const [isAll, isAllSet] = useState(false)
 
   const cartItems = useAppSelector(selectedCartItems)
@@ -16,7 +20,7 @@ export default function CartList() {
   const allPrice = useAppSelector(allPriceCart)
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pb-[33px]">
 
       <div className="flex justify-between items-center">
         <h4 className="h4-bold">{cartTotalQuantity} items here</h4>
@@ -48,12 +52,23 @@ export default function CartList() {
 
       {
         true && (
-          <div className="flex flex-col gap-2.5">
-            <ActionOfferCard type="apply-discount" text='Use discount code here' onClick={() => {}}/>
-            <ActionOfferCard type="set-payment" text='Set the payment method' onClick={() => {}}/>
+
+          <div className="flex flex-col gap-[22px]">
+            <div className="flex flex-col gap-2.5 mt-[22px]">
+              <ActionOfferCard type="apply-discount" text='Use discount code here' />
+              <ActionOfferCard type="set-payment" text='Set the payment method' onClick={() => router.push('/')} />
+            </div>
+
+            <div className="flex flex-col gap-[22px]">
+              <p className="h4-bold">Last use</p>
+
+              <PaymentCard />
+            </div>
           </div>
         )
       }
+
+
 
       <div className="mt-[7px] py-6">
         <div className="flex flex-col gap-[5px]">
@@ -76,6 +91,9 @@ export default function CartList() {
           </span>
         </Button>
       </div>
+
+      <BottomNavBar className='mt-2.5' />
+
     </div>
   )
 }

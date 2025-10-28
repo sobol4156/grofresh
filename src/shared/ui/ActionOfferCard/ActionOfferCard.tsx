@@ -1,10 +1,10 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import Button from "../Button";
 
 interface ActionOfferCardProps {
   text: string;
   type: 'set-payment' | 'apply-discount';
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const ACTION_CONFIG: Record<
@@ -32,7 +32,24 @@ const ACTION_CONFIG: Record<
 };
 
 export default function ActionOfferCard({ text, type, onClick }: ActionOfferCardProps) {
+  const [isApplied, setIsApplied] = useState(false);
   const { icon, buttonLabel } = ACTION_CONFIG[type];
+
+  const isDisabled = type === "apply-discount" && isApplied;
+
+  const handleClick = () => {
+    if (type === 'apply-discount') {
+      applyDiscountLogic();
+      return
+    }
+
+    if (onClick) onClick();
+  };
+
+  const applyDiscountLogic = () => {
+    setIsApplied(true)
+  };
+
 
   return (
     <div className="shadow bg-white p-4 rounded-[30px] flex items-center">
@@ -43,17 +60,21 @@ export default function ActionOfferCard({ text, type, onClick }: ActionOfferCard
 
       <span className="small-regular ml-2.5">{text}</span>
 
-      <Button sx={{
-        marginLeft: 'auto',
-        textTransform: 'none',
-        borderRadius: '10px',
-        color: 'white',
-        backgroundColor: 'var(--color-green-500)',
-        '&:hover': { backgroundColor: 'var(--color-green-400)' },
-      }}
-        onClick={onClick}
+      <Button
+        disabled={isDisabled}
+        sx={{
+          marginLeft: 'auto',
+          textTransform: 'none',
+          borderRadius: '10px',
+          color: 'white',
+          background: 'var(--color-green-500)',
+          '&:hover': {
+            backgroundColor: 'var(--color-green-400)',
+          },
+        }}
+        onClick={handleClick}
       >
-        {buttonLabel}
+        {isApplied ? "Applied" : buttonLabel}
       </Button>
     </div>
 
