@@ -43,7 +43,7 @@ export default function AddToCartModal() {
   useEffect(() => {
     if (!modalRef.current) return;
 
-    if (currentItem && pathname === '/') {
+    if (currentItem?.id && pathname === '/') {
       gsap.fromTo(
         modalRef.current,
         { opacity: 0, y: 50 },
@@ -52,7 +52,7 @@ export default function AddToCartModal() {
     } else {
       gsap.to(modalRef.current, { opacity: 0, y: 50, duration: 0.3, ease: 'power2.in' });
     }
-  }, [currentItem, pathname]);
+  }, [currentItem?.id, pathname]);
 
   if (!currentItem || pathname !== '/') return null;
   return (
