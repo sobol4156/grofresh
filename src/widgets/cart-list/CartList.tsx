@@ -3,6 +3,7 @@ import { useAppSelector } from "@/app/providers/store-provider/config/hooks";
 import { allPriceCart, selectedCartQuantity, selectedCartItems, selectedCartCount } from "@/entities/cart/model/cart.slice";
 import { ProductCart } from "@/entities/product";
 import Button from "@/shared/ui/Button";
+import ActionOfferCard from "@/shared/ui/ActionOfferCard";
 
 const showDefaultItems = 3
 
@@ -44,6 +45,15 @@ export default function CartList() {
           <div className="border w-full"></div>
         </div>
       )}
+
+      {
+        true && (
+          <div className="flex flex-col gap-2.5">
+            <ActionOfferCard type="apply-discount" text='Use discount code here' onClick={() => {}}/>
+            <ActionOfferCard type="set-payment" text='Set the payment method' onClick={() => {}}/>
+          </div>
+        )
+      }
 
       <div className="mt-[7px] py-6">
         <div className="flex flex-col gap-[5px]">
