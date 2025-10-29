@@ -33,6 +33,13 @@
   line-height: 18px;
 }
 
+.h6-bold {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+}
+
 .large-bold {
   font-style: normal;
   font-weight: 700;

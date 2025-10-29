@@ -29,9 +29,21 @@ export default function AddToCartModal() {
     if (currentItem.quantity > 0) {
       router.push('/cart');
     } else {
-
       handleQuantityChange(currentItem, 'increment');
     }
+  };
+
+  const handleBuyNow = () => {
+    if (!currentItem) return;
+
+    if (currentItem.quantity === 0) {
+      handleQuantityChange(currentItem, 'increment');
+    }
+
+    router.push({
+      pathname: '/cart',
+      query: { checkout: 'true' },
+    });
   };
 
   useEffect(() => {
@@ -97,6 +109,7 @@ export default function AddToCartModal() {
             backgroundColor: 'var(--color-green-500)',
             '&:hover': { backgroundColor: 'var(--color-green-400)' },
           }}
+          onClick={handleBuyNow}
         >
           <span className='text-white h5-bold'>Buy now</span>
         </Button>

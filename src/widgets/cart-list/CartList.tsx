@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "@/app/providers/store-provider/config/hooks";
 import { allPriceCart, selectedCartQuantity, selectedCartItems, selectedCartCount } from "@/entities/cart/model/cart.slice";
 import { ProductCart } from "@/entities/product";
@@ -11,13 +11,26 @@ import PaymentCard from "@/shared/ui/PaymentCard";
 const showDefaultItems = 3
 
 export default function CartList() {
-  const router = useRouter()
   const [isAll, isAllSet] = useState(false)
+  const [isCheckoutMode, setCheckoutMode] = useState(false);
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (router.query.checkout === 'true') {
+      setCheckoutMode(true);
+    }
+  }, [router.query.checkout]);
 
   const cartItems = useAppSelector(selectedCartItems)
   const cartUniqueItemsCount = useAppSelector(selectedCartCount);
   const cartTotalQuantity = useAppSelector(selectedCartQuantity);
   const allPrice = useAppSelector(allPriceCart)
+
+
+  const handleProceedToCheckout = () => {
+    setCheckoutMode(true);
+  }
 
   return (
     <div className="flex flex-col pb-[33px]">
@@ -51,7 +64,7 @@ export default function CartList() {
       )}
 
       {
-        true && (
+        isCheckoutMode && (
 
           <div className="flex flex-col gap-[22px]">
             <div className="flex flex-col gap-2.5 mt-[22px]">
@@ -63,6 +76,34 @@ export default function CartList() {
               <p className="h4-bold">Last use</p>
 
               <PaymentCard />
+            </div>
+
+            <div className="flex flex-col gap-[22px]">
+              <p className="h4-bold">Summary</p>
+
+              <div className="shadow p-4">
+
+                <div className="flex justify-between">
+                  <span className="h6-bold">Payment method</span>
+                  <span className="h6-regular">Mastercard</span>
+                </div>
+
+                <div className="w-full border-b border-light-silver mt-3 mb-2.5"></div>
+
+                <div className="flex justify-between">
+                  <span className="h6-bold">Service Fee</span>
+                  <span className="h6-regular">$1.50</span>
+                </div>
+
+                <div className="w-full border-b border-light-silver mt-3 mb-2.5"></div>
+
+                <div className="flex justify-between">
+                  <span className="h5-bold">Total cost</span>
+                  <span className="h6-bold">$11.95</span>
+                </div>
+
+                <div className="w-full border-b border-light-silver mt-3"></div>
+              </div>
             </div>
           </div>
         )
@@ -85,7 +126,9 @@ export default function CartList() {
           color: 'white',
           backgroundColor: 'var(--color-green-500)',
           '&:hover': { backgroundColor: 'var(--color-green-400)' },
-        }}>
+        }}
+          onClick={handleProceedToCheckout}
+        >
           <span className="h5-bold">
             Checkout now
           </span>

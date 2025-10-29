@@ -3,9 +3,11 @@ import CheckIcon from '@mui/icons-material/Check';
 
 interface CheckboxProps {
   sx?: SxProps<Theme>;
+  checked: boolean;
+  onClick?: () => void
 }
 
-export default function Checkbox({ sx }: CheckboxProps) {
+export default function Checkbox({ sx, checked, onClick }: CheckboxProps) {
   const defaultSx: SxProps<Theme> = {
     padding: 0,
     ...sx,
@@ -15,6 +17,7 @@ export default function Checkbox({ sx }: CheckboxProps) {
     <CheckboxMui
       sx={defaultSx}
       disableRipple
+      checked={checked}
       icon={
         <span
           style={{
@@ -47,6 +50,7 @@ export default function Checkbox({ sx }: CheckboxProps) {
           }} />
         </span>
       }
+      onClick={onClick}
     />
   );
 }
