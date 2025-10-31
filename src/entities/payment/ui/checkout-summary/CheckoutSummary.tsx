@@ -7,7 +7,7 @@ export default function CheckoutSummary() {
   const allPriceCart = useAppSelector(allPriceCartSelector)
   const paymentMethod = useAppSelector(paymentMethodSelector)
 
-  const totalPrice = Number(allPriceCart) + Number(serviceFee);
+  const totalPrice = (Number(allPriceCart) + Number(serviceFee)).toFixed(2);
 
   return (
     <div className="flex flex-col gap-[22px]">

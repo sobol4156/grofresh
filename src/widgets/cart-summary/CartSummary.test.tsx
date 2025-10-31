@@ -24,7 +24,7 @@ describe("CartSummary component", () => {
 
     render(<CartSummary isEmpty={false} onCheckout={mockCheckout} />);
 
-    expect(screen.getByText("Total : $110")).toBeInTheDocument();
+    expect(screen.getByText("Total : $110.00")).toBeInTheDocument();
     expect(screen.getByText("Discount up to 5%")).toBeInTheDocument();
   });
 

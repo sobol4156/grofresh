@@ -34,6 +34,6 @@ describe("CheckoutSummary", () => {
 
     expect(screen.getByText("Mastercard")).toBeInTheDocument();
     expect(screen.getByText("$1.50")).toBeInTheDocument();
-    expect(screen.getByText("$101.5")).toBeInTheDocument();
+    expect(screen.getByText("$101.50")).toBeInTheDocument();
   });
 });
