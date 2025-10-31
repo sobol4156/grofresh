@@ -11,6 +11,7 @@ export default function Document() {
         href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
         rel="stylesheet"
       />
+      <script src="https://telegram.org/js/telegram-web-app.js"></script>
     </Head>
     <body className="antialiased pt-[30px] w-full">
       <Main />
