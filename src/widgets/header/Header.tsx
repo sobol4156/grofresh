@@ -10,6 +10,8 @@ import { usePathname } from 'next/navigation';
 import { HeaderConfig, headerConfig, HeaderRoute } from './config';
 import { useRouter } from 'next/router'
 import { useTelegram } from '@/shared/hooks/useTelegram/useTelegram';
+import Head from 'next/head';
+import Script from 'next/script';
 
 const CartBadge = styled(Badge)`
   & .${badgeClasses.badge} {
@@ -36,6 +38,10 @@ export default function Header() {
 
   return (
     <header className='flex relative justify-between w-full container'>
+      <Script
+        src="https://telegram.org/js/telegram-web-app.js?59"
+        strategy="afterInteractive"
+      />
       {currentConfig?.user && (
         <div className='flex items-center gap-2.5' data-testid="user">
           <Avatar src={user?.photo_url} />
