@@ -54,7 +54,6 @@ describe("ProductCart component", () => {
   it("calls removeProduct when clicking delete icon", () => {
     render(<ProductCart product={product} />);
     
-    // Добавь data-testid="delete-icon" на svg в компоненте
     const deleteIcon = screen.getByTestId("delete-icon");
     fireEvent.click(deleteIcon);
 
