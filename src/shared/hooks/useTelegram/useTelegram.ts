@@ -1,27 +1,39 @@
 import { useEffect, useState } from "react";
 
+interface TelegramUser {
+  id: number;
+  first_name: string;
+  last_name?: string;
+  username?: string;
+  photo_url?: string;
+}
+
 export function useTelegram() {
-  const [user, setUser] = useState<{ name: string; photo_url?: string } | null>(null);
+  const [user, setUser] = useState<TelegramUser | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const tg = window.Telegram?.WebApp;
+    const waitForTelegram = () => {
+      const tg = window.Telegram?.WebApp;
+      if (!tg) {
+        console.warn("Waiting for Telegram WebApp...");
+        setTimeout(waitForTelegram, 1000); 
+        return;
+      }
 
-    if (!tg) {
-      console.warn("Telegram WebApp is not available");
-      return;
-    }
+      tg.ready();
 
-    tg.ready();
+      const u = tg.initDataUnsafe?.user;
+      if (u) {
+        setUser(u);
+        console.log("Telegram user:", u);
+      } else {
+        console.warn("No user info in initDataUnsafe:", tg.initDataUnsafe);
+      }
+    };
 
-    const u = tg.initDataUnsafe?.user;
-    if (u) {
-      setUser({
-        name: `${u.first_name} ${u.last_name ?? ""}`.trim(),
-        photo_url: u.photo_url,
-      });
-    }
+    waitForTelegram();
   }, []);
 
   return { user };
