@@ -11,7 +11,7 @@ export default function CartSummary({ isEmpty, onCheckout }: CartSummaryProps) {
   const serviceFee = useAppSelector(serviceFeeSelector)
   const allPriceCart = useAppSelector(allPriceCartSelector)
 
-  const totalPrice = Number(allPriceCart) + Number(serviceFee);
+  const totalPrice = Number(allPriceCart) > 0 ? Number(allPriceCart) + Number(serviceFee) : 0;
 
   return (
     <div className="mt-[7px] py-6">
