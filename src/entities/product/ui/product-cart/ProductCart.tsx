@@ -34,7 +34,7 @@ export default function ProductCart({ product }: ProductCartProps) {
             <span className="medium-regular">{product.unitValue} {product.unit}</span>
           </div>
 
-          <svg className="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={removeProduct}>
+          <svg className="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-testid="delete-icon" onClick={removeProduct}>
             <path d="M18.0002 6L6.00015 18" stroke="black" strokeWidth="1.48571" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M6.00015 6L18.0002 18" stroke="black" strokeWidth="1.48571" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
