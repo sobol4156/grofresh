@@ -4,15 +4,16 @@ import { useAppDispatch, useAppSelector } from "@/app/providers/store-provider/c
 import { Card, toggleCurrentCard } from "@/entities/payment/model/payment.slice";
 
 interface PaymentCardProps {
-  card: Card | null
+  card: Card | null,
+  isLastCard?: boolean;
 }
 
-export default function PaymentCard({ card }: PaymentCardProps) {
+export default function PaymentCard({ card, isLastCard }: PaymentCardProps) {
   const checked = useAppSelector((state) => state.payment.currentCard);
   const dispatch = useAppDispatch()
 
   const toggleCard = () => {
-    if (!card) return
+    if (!card || isLastCard) return
 
     dispatch(toggleCurrentCard(card))
   }

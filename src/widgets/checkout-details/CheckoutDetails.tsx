@@ -19,7 +19,7 @@ export default function CheckoutDetails() {
         <p className="h4-bold">Last use</p>
 
 
-        <PaymentCard card={lastCard} />
+        <PaymentCard card={lastCard} isLastCard />
       </div>
 
       <CheckoutSummary />
