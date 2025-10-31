@@ -18,7 +18,6 @@ export default function CheckoutDetails() {
       <div className="flex flex-col gap-[22px]">
         <p className="h4-bold">Last use</p>
 
-
         <PaymentCard card={lastCard} isLastCard />
       </div>
 
