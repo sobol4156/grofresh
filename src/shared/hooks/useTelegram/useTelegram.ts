@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 export function useTelegram() {
   const [user, setUser] = useState<{ name: string; photo_url?: string } | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof window === "undefined") return;
 
     const tg = window.Telegram?.WebApp;
