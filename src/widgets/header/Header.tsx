@@ -7,7 +7,7 @@ import CartIcon from '@/entities/cart/ui/CartIcon';
 import { usePathname } from 'next/navigation';
 import { HeaderConfig, headerConfig, HeaderRoute } from './config';
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react';
+import { useTelegram } from '@/shared/hooks/useTelegram/useTelegram';
 
 const CartBadge = styled(Badge)`
   & .${badgeClasses.badge} {
@@ -18,11 +18,10 @@ const CartBadge = styled(Badge)`
 
 export default function Header() {
   const router = useRouter();
-
+  const { user } = useTelegram();
   const pathname = (usePathname() ?? '/') as HeaderRoute;
   const currentConfig: HeaderConfig = headerConfig[pathname];
 
-  const [user, setUser] = useState<{ name: string; photo_url?: string } | null>(null);
 
   const navigateBack = () => {
     if (window.history.length > 1) {
@@ -32,16 +31,6 @@ export default function Header() {
     }
   }
 
-  useEffect(() => {
-    const tg = window.Telegram?.WebApp;
-    if (tg?.initDataUnsafe?.user) {
-      const u = tg.initDataUnsafe.user;
-      setUser({
-        name: `${u.first_name} ${u.last_name ?? ''}`.trim(),
-        photo_url: u.photo_url,
-      });
-    }
-  }, []);
 
   return (
     <header className='flex relative justify-between w-full container'>
