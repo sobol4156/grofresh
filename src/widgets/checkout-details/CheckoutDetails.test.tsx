@@ -5,7 +5,6 @@ import CheckoutDetails from "./CheckoutDetails";
 import * as hooks from "@/app/providers/store-provider/config/hooks";
 import { useRouter } from "next/router";
 
-// 🔧 Мокаем зависимости
 jest.mock("next/router", () => ({
   useRouter: jest.fn(),
 }));

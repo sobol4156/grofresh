@@ -7,6 +7,7 @@ import CartIcon from '@/entities/cart/ui/CartIcon';
 import { usePathname } from 'next/navigation';
 import { HeaderConfig, headerConfig, HeaderRoute } from './config';
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react';
 
 const CartBadge = styled(Badge)`
   & .${badgeClasses.badge} {
@@ -21,6 +22,8 @@ export default function Header() {
   const pathname = (usePathname() ?? '/') as HeaderRoute;
   const currentConfig: HeaderConfig = headerConfig[pathname];
 
+  const [user, setUser] = useState<{ name: string; photo_url?: string } | null>(null);
+
   const navigateBack = () => {
     if (window.history.length > 1) {
       router.back();
@@ -28,14 +31,26 @@ export default function Header() {
       router.push('/');
     }
   }
+
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp;
+    if (tg?.initDataUnsafe?.user) {
+      const u = tg.initDataUnsafe.user;
+      setUser({
+        name: `${u.first_name} ${u.last_name ?? ''}`.trim(),
+        photo_url: u.photo_url,
+      });
+    }
+  }, []);
+
   return (
     <header className='flex relative justify-between w-full container'>
       {currentConfig?.user && (
         <div className='flex items-center gap-2.5' data-testid="user">
-          <Avatar />
+          <Avatar src={user?.photo_url} />
           <div className='flex flex-col justify-between'>
             <p className='h5-regular'>Welcome Back</p>
-            <b className='h5-bold'>Kevin henderson</b>
+            <b className="h5-bold">{user?.name || 'Guest'}</b>
           </div>
         </div>
       )}
