@@ -1,3 +1,5 @@
+'use client'
+
 import Avatar from '@/shared/ui/Avatar/Avatar'
 import IconButton from '@/shared/ui/IconButton'
 import { styled } from '@mui/material/styles';
