@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/app/providers/store-provider/config/hooks";
-import { allPriceCart, selectedCartQuantity, selectedCartItems } from "@/entities/cart/model/cart.slice";
+import { selectedCartQuantity, selectedCartItems } from "@/entities/cart/model/cart.slice";
 import { useRouter } from "next/router";
 import BottomNavBar from "@/widgets/bottom-nav-bar";
 import CheckoutDetails from "../checkout-details";
@@ -14,19 +14,18 @@ export default function CartSection() {
 
   const router = useRouter()
 
+  const cartItems = useAppSelector(selectedCartItems);
+  const cartTotalQuantity = useAppSelector(selectedCartQuantity);
+
+  const handleProceedToCheckout = () => {
+    setCheckoutMode(true);
+  }
+
   useEffect(() => {
     if (router.query.checkout === 'true') {
       setCheckoutMode(true);
     }
   }, [router.query.checkout]);
-
-  const cartItems = useAppSelector(selectedCartItems);
-  const cartTotalQuantity = useAppSelector(selectedCartQuantity);
-  const allPrice = useAppSelector(allPriceCart);
-
-  const handleProceedToCheckout = () => {
-    setCheckoutMode(true);
-  }
 
   return (
     <div className="flex flex-col pb-[33px]">
@@ -40,7 +39,7 @@ export default function CartSection() {
 
       {isCheckoutMode && <CheckoutDetails />}
 
-      <CartSummary isEmpty={cartItems.length === 0} totalPrice={allPrice} onCheckout={handleProceedToCheckout} />
+      <CartSummary isEmpty={cartItems.length === 0} onCheckout={handleProceedToCheckout} />
 
       <BottomNavBar className='mt-2.5' />
 

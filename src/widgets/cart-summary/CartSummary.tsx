@@ -1,13 +1,17 @@
+import { useAppSelector } from "@/app/providers/store-provider/config/hooks";
 import Button from "@/shared/ui/Button";
-
+import { allPriceCart as allPriceCartSelector } from "@/entities/cart/model/cart.slice"
+import { serviceFee as serviceFeeSelector } from "@/entities/payment/model/payment.slice"
 interface CartSummaryProps {
   isEmpty: boolean;
-  totalPrice: string;
   onCheckout: () => void
 }
 
-export default function CartSummary({ isEmpty, totalPrice, onCheckout }: CartSummaryProps) {
+export default function CartSummary({ isEmpty, onCheckout }: CartSummaryProps) {
+  const serviceFee = useAppSelector(serviceFeeSelector)
+  const allPriceCart = useAppSelector(allPriceCartSelector)
 
+  const totalPrice = Number(allPriceCart) + Number(serviceFee);
 
   return (
     <div className="mt-[7px] py-6">

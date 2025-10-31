@@ -1,3 +1,5 @@
+import { useAppSelector } from "@/app/providers/store-provider/config/hooks";
+import { lastUsedCard } from "@/entities/payment/model/payment.slice";
 import CheckoutSummary from "@/entities/payment/ui/checkout-summary";
 import ActionOfferCard from "@/shared/ui/ActionOfferCard";
 import PaymentCard from "@/shared/ui/PaymentCard";
@@ -5,6 +7,7 @@ import { useRouter } from "next/router";
 
 export default function CheckoutDetails() {
   const router = useRouter()
+  const lastCard = useAppSelector(lastUsedCard)
   return (
     <div className="flex flex-col gap-[22px]">
       <div className="flex flex-col gap-2.5 mt-[22px]">
@@ -15,7 +18,8 @@ export default function CheckoutDetails() {
       <div className="flex flex-col gap-[22px]">
         <p className="h4-bold">Last use</p>
 
-        <PaymentCard />
+
+        <PaymentCard card={lastCard} />
       </div>
 
       <CheckoutSummary />

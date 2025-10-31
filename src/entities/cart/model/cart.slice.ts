@@ -4,11 +4,10 @@ import { IProduct } from '@/entities/product'
 export interface ProductState {
   items: IProduct[],
   selectedProduct: IProduct | null
-
 }
 const initialState: ProductState = {
   items: [],
-  selectedProduct: null
+  selectedProduct: null,
 }
 
 export const cartSlice = createSlice({
