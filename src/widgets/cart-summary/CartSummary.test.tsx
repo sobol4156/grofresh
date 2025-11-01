@@ -22,9 +22,22 @@ describe("CartSummary component", () => {
       if (selector === serviceFeeSelector) return 10;
     });
 
-    render(<CartSummary isEmpty={false} onCheckout={mockCheckout} />);
+    render(<CartSummary isEmpty={false} isCheckoutMode={true} onCheckout={mockCheckout} />);
 
     expect(screen.getByText("Total : $110.00")).toBeInTheDocument();
+    expect(screen.getByText("Discount up to 5%")).toBeInTheDocument();
+  });
+
+      // Корректно отображает общую цену если isCheckoutMode false
+  it("renders total price correctly", () => {
+    mockUseAppSelector.mockImplementation((selector) => {
+      if (selector === allPriceCartSelector) return 100;
+      if (selector === serviceFeeSelector) return 10;
+    });
+
+    render(<CartSummary isEmpty={false} isCheckoutMode={false} onCheckout={mockCheckout} />);
+
+    expect(screen.getByText("Total : $100.00")).toBeInTheDocument();
     expect(screen.getByText("Discount up to 5%")).toBeInTheDocument();
   });
 
@@ -35,16 +48,16 @@ describe("CartSummary component", () => {
       if (selector === serviceFeeSelector) return 10;
     });
 
-    render(<CartSummary isEmpty={true} onCheckout={mockCheckout} />);
+    render(<CartSummary isEmpty={true} isCheckoutMode={false} onCheckout={mockCheckout} />);
 
-    expect(screen.getByText("Total : $0")).toBeInTheDocument();
+    expect(screen.getByText("Total : $0.00")).toBeInTheDocument();
   });
 
   // отключает кнопку, когда корзина пуста
   it("disables the button when cart is empty", () => {
     mockUseAppSelector.mockReturnValue(0);
 
-    render(<CartSummary isEmpty={true} onCheckout={mockCheckout} />);
+    render(<CartSummary isEmpty={true} isCheckoutMode={false} onCheckout={mockCheckout} />);
 
     const button = screen.getByRole("button", { name: /checkout now/i });
     expect(button).toBeDisabled();
@@ -57,7 +70,7 @@ describe("CartSummary component", () => {
       if (selector === serviceFeeSelector) return 20;
     });
 
-    render(<CartSummary isEmpty={false} onCheckout={mockCheckout} />);
+    render(<CartSummary isEmpty={false} isCheckoutMode={false} onCheckout={mockCheckout} />);
 
     const button = screen.getByRole("button", { name: /checkout now/i });
     fireEvent.click(button);

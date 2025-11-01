@@ -27,6 +27,12 @@ export default function CartSection() {
     }
   }, [router.query.checkout]);
 
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      setCheckoutMode(false)
+    }
+  }, [cartItems])
+
   return (
     <div className="flex flex-col pb-[33px]">
 
@@ -39,7 +45,7 @@ export default function CartSection() {
 
       {isCheckoutMode && <CheckoutDetails />}
 
-      <CartSummary isEmpty={cartItems.length === 0} onCheckout={handleProceedToCheckout} />
+      <CartSummary isCheckoutMode={isCheckoutMode} isEmpty={cartItems.length === 0} onCheckout={handleProceedToCheckout} />
 
       <BottomNavBar className='mt-2.5' />
 

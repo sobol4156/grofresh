@@ -16,7 +16,7 @@ export default function CartItemsList({ items, showDefaultItems }: CartItemsList
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center mt-10">
+      <div className="flex flex-col items-center justify-center mt-10 select-none">
         <Image
           src="/images/cart/empty-cart.png"
           alt="Empty cart"

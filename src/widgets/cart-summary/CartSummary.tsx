@@ -4,19 +4,20 @@ import { allPriceCart as allPriceCartSelector } from "@/entities/cart/model/cart
 import { serviceFee as serviceFeeSelector } from "@/entities/payment/model/payment.slice"
 interface CartSummaryProps {
   isEmpty: boolean;
+  isCheckoutMode: boolean;
   onCheckout: () => void
 }
 
-export default function CartSummary({ isEmpty, onCheckout }: CartSummaryProps) {
+export default function CartSummary({ isEmpty, isCheckoutMode, onCheckout }: CartSummaryProps) {
   const serviceFee = useAppSelector(serviceFeeSelector)
   const allPriceCart = useAppSelector(allPriceCartSelector)
 
-  const totalPrice = Number(allPriceCart) > 0 ? (Number(allPriceCart) + Number(serviceFee)).toFixed(2) : 0;
+  const totalPrice = (Number(allPriceCart) > 0 ? Number(allPriceCart) + Number(serviceFee) : 0).toFixed(2)
 
   return (
     <div className="mt-[7px] py-6">
       <div className="flex flex-col gap-[5px]">
-        <p className="h3-bold">Total : ${totalPrice}</p>
+        <p className="h3-bold">Total : ${isCheckoutMode ? totalPrice : Number(allPriceCart).toFixed(2)}</p>
         <span className="h6-regular">Discount up to 5%</span>
       </div>
 
