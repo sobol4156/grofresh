@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import CategoryCard from './CategoryCard'
-import { Category } from '../browse-category/model/types'
+import { Category } from '../../../browse-category/model/types'
 
 // Мокаем next/image, чтобы тесты не падали из-за SSR специфики Next.js
 jest.mock('next/image', () => ({

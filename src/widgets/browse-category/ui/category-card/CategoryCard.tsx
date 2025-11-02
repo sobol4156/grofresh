@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Category } from "../browse-category/model/types";
+import { Category } from "../../../browse-category/model/types";
 
 interface CategoryProps {
   category: Category

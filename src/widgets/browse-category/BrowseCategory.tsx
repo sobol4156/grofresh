@@ -1,4 +1,4 @@
-import CategoryCard from "../category-card";
+import CategoryCard from "./ui/category-card";
 import { MOCK_CATEGORIES } from "./config/mock";
 
 interface BrowseCategoryProps {

@@ -3,7 +3,7 @@ import BrowseCategory from './BrowseCategory'
 import { MOCK_CATEGORIES } from './config/mock'
 
 // Мокаем CategoryCard, чтобы не рендерить реальные изображения и стили
-jest.mock('../category-card', () => ({
+jest.mock('./ui/category-card', () => ({
   __esModule: true,
   default: ({ category }: { category: { name: string } }) => (
     <div data-testid="category-card">{category.name}</div>

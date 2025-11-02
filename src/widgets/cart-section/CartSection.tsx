@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "@/app/providers/store-provider/config/hooks";
 import { selectedCartQuantity, selectedCartItems } from "@/entities/cart/model/cart.slice";
 import { useRouter } from "next/router";
-import BottomNavBar from "@/widgets/bottom-nav-bar";
-import CheckoutDetails from "../checkout-details";
-import CartSummary from "../cart-summary";
-import CartItemsList from "../cart-items-list";
+import { BottomNavBar } from "@/features/bottom-nav-bar";
+import CheckoutDetails from "./ui/checkout-details";
+import CartSummary from "./ui/cart-summary";
+import CartItemsList from "./ui/cart-items-list";
 
 const showDefaultItems = 3
 
