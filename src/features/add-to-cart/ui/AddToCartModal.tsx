@@ -90,8 +90,6 @@ export default function AddToCartModal() {
             borderRadius: 50,
             width: '100%',
             textTransform: 'none',
-            backgroundColor: 'var(--color-flash-white)',
-            '&:hover': { backgroundColor: 'var(--color-light-silver)' },
           }}
           onClick={handleCartAction}
         >
@@ -101,13 +99,13 @@ export default function AddToCartModal() {
         </Button>
 
         <Button
+          colorType='success'
           sx={{
             height: 50,
             borderRadius: 50,
             width: '100%',
             textTransform: 'none',
-            backgroundColor: 'var(--color-green-500)',
-            '&:hover': { backgroundColor: 'var(--color-green-400)' },
+
           }}
           onClick={handleBuyNow}
         >

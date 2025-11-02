@@ -60,6 +60,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: "Plus Jakarta Sans", sans-serif;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .container {
@@ -81,4 +82,13 @@ body {
 
 img {
   user-select: none;
+}
+#__next {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  height: 100%;
 }

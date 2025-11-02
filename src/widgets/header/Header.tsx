@@ -39,7 +39,7 @@ export default function Header() {
           <Avatar src={user?.photo_url} />
           <div className='flex flex-col justify-between'>
             <p className='h5-regular'>Welcome Back</p>
-            <b className="h5-bold">{user?.name || 'Guest'}</b>
+            <b className="h5-bold" data-testid='name-user'>{user?.name || 'Guest'}</b>
           </div>
         </div>
       )}

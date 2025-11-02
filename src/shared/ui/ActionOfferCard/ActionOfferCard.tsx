@@ -61,16 +61,12 @@ export default function ActionOfferCard({ text, type, onClick }: ActionOfferCard
       <span className="small-regular ml-2.5">{text}</span>
 
       <Button
+        colorType="success"
         disabled={isDisabled}
         sx={{
           marginLeft: 'auto',
           textTransform: 'none',
           borderRadius: '10px',
-          color: 'white',
-          background: 'var(--color-green-500)',
-          '&:hover': {
-            backgroundColor: 'var(--color-green-400)',
-          },
         }}
         onClick={handleClick}
       >

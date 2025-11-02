@@ -21,16 +21,16 @@ export default function CartSummary({ isEmpty, isCheckoutMode, onCheckout }: Car
         <span className="h6-regular">Discount up to 5%</span>
       </div>
 
-      <Button disabled={isEmpty} sx={{
-        height: 65,
-        borderRadius: 50,
-        width: '100%',
-        marginTop: '19px',
-        textTransform: 'none',
-        color: 'white',
-        backgroundColor: 'var(--color-green-500)',
-        '&:hover': { backgroundColor: 'var(--color-green-400)' },
-      }}
+      <Button
+        disabled={isEmpty}
+        colorType="success"
+        sx={{
+          height: 65,
+          borderRadius: 50,
+          width: '100%',
+          marginTop: '19px',
+          textTransform: 'none',
+        }}
         onClick={onCheckout}
       >
         <span className="h5-bold">

@@ -18,6 +18,11 @@ export default function CartSection() {
   const cartTotalQuantity = useAppSelector(selectedCartQuantity);
 
   const handleProceedToCheckout = () => {
+    if (isCheckoutMode) {
+      router.push('/checkout-success')
+      setCheckoutMode(false);
+      return
+    }
     setCheckoutMode(true);
   }
 

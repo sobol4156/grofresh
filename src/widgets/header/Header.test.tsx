@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { cartReducer } from '@/entities/cart/model/cart.slice';
 import { HeaderConfig, headerConfig, HeaderRoute } from './config';
+import { useTelegram } from '@/shared/hooks/useTelegram/useTelegram';
 
 // --- Моки для next/router и next/navigation ---
 jest.mock('next/router', () => ({
@@ -16,13 +17,24 @@ jest.mock('next/navigation', () => ({
   usePathname: jest.fn(),
 }));
 
+jest.mock('@/shared/hooks/useTelegram/useTelegram', () => ({
+  useTelegram: jest.fn(() => ({
+    user: { name: 'Guest', photo_url: '' },
+  })),
+}));
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+jest.mock('@/shared/ui/Avatar/Avatar', () => (props: any) => (
+  // eslint-disable-next-line @next/next/no-img-element
+  <img data-testid="avatar" src={props.src} alt="avatar" />
+));
+
 // --- Моки для UI компонентов ---
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 jest.mock('@/entities/cart/ui/CartIcon', () => (props: any) => (
   <button data-testid="cart-icon" {...props}>Cart</button>
 ));
 
-jest.mock('@/shared/ui/Avatar/Avatar', () => () => <div data-testid="avatar" />);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 jest.mock('@/shared/ui/IconButton', () => (props: any) => <button {...props} />);
 // --- Простейший mock store для CartIcon ---
@@ -118,4 +130,39 @@ describe('Header component', () => {
     expect(pushMock).toHaveBeenCalledWith('/cart');
   });
 
+  test('renders user avatar with correct src and name when user exists', () => {
+    (useTelegram as jest.Mock).mockReturnValue({
+      user: { name: 'Alex', photo_url: 'https://example.com/photo.jpg' }
+    });
+
+    render(
+      <Provider store={createStore()}>
+        <Header />
+      </Provider>
+    );
+
+    const avatarImg = screen.getByRole('img') as HTMLImageElement;
+    const username = screen.getByTestId('name-user');
+
+    expect(avatarImg.src).toBe('https://example.com/photo.jpg');
+    expect(username).toHaveTextContent('Alex');
+  });
+
+  test('renders default avatar and name when user is undefined', () => {
+    (useTelegram as jest.Mock).mockReturnValue({
+      user: undefined
+    });
+
+    render(
+      <Provider store={createStore()}>
+        <Header />
+      </Provider>
+    );
+
+    const avatarImg = screen.getByRole('img') as HTMLImageElement;
+    const username = screen.getByTestId('name-user');
+
+    expect(avatarImg.src).toContain(''); 
+    expect(username).toHaveTextContent('Guest');
+  });
 });
