@@ -5,7 +5,7 @@ export default function CheckoutSuccess() {
   useBodyBackground("#00824B");
 
   return (
-    <div className="pt-[38px] h-full overflow-hidden">
+    <div className="pt-[38px] h-full overflow-x-hidden">
         <CheckoutSuccessSection />
     </div>
   )
