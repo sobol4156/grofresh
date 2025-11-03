@@ -7,7 +7,12 @@ import Head from "next/head";
 import { StoreProvider } from "@/app/providers/store-provider";
 import AddToCartModal from "@/features/add-to-cart/ui/AddToCartModal";
 
+import PageLoader from "@/shared/ui/PageLoader";
+import { usePageLoading } from "@/shared/hooks/usePageLoading/usePageLoading";
+
 export default function App({ Component, pageProps }: AppProps) {
+  const isLoading = usePageLoading()
+  
   return (
     <>
       <Head>
@@ -20,6 +25,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ThemeProvider theme={theme} defaultMode="light">
           <Header />
           <main className="w-full">
+            {isLoading && <PageLoader />}
             <Component {...pageProps} />
           </main>
           <AddToCartModal />
