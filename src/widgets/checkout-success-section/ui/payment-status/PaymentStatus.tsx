@@ -4,7 +4,7 @@ import "./payment-status.css";
 
 export default function PaymentStatus() {
   return (
-    <div className="flex flex-col items-center max-w-[310px] text-white">
+    <div className="flex flex-col items-center max-w-[310px] text-white ">
       <DotLottieReact
         className="absolute top-0 w-[800px] h-[400px] z-0"
         src="https://lottie.host/0014cf32-8c95-43f9-a5da-4e01b983ceb6/d7H3IZks5z.lottie"
