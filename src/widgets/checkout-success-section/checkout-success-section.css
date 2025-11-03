@@ -1,0 +1,25 @@
+.slide-up {
+  opacity: 0;
+  transform: translateY(80px) scaleY(0.92);
+  transform-origin: bottom center;
+  animation: slideUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(80px) scaleY(0.92);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(0px) scaleY(1.05);
+  }
+  75% {
+    transform: translateY(0px) scaleY(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}

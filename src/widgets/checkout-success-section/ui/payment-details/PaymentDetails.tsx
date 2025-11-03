@@ -10,7 +10,7 @@ export default function PaymentDetails() {
   }
 
   return (
-    <div className="flex flex-col bg-white p-[16px_24px] rounded-[10px_10px_0_0]">
+    <div className="container flex flex-col bg-white p-[16px_24px] rounded-[10px_10px_0_0]">
       <p className="h4-bold">Summary details</p>
 
       <div className="shadow mt-[22px] bg-white p-4 rounded-[30px]">
