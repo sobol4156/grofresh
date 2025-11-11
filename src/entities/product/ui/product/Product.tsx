@@ -9,7 +9,6 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-
   const dispatch = useAppDispatch();
 
   const currentItem = useAppSelector(selectedProduct)

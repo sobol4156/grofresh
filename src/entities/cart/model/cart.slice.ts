@@ -78,10 +78,14 @@ export const cartSlice = createSlice({
     clearLastProduct(state) {
       state.selectedProduct = null
     },
+    clearCart(state) {
+      state.items = []
+      state.selectedProduct = null
+    }
   },
 })
 
-export const { toggleCartItem, decrementOrRemoveItem, clearLastProduct, incrementItem, toggleSelectedProduct } = cartSlice.actions
+export const { toggleCartItem, decrementOrRemoveItem, clearLastProduct, incrementItem, toggleSelectedProduct, clearCart } = cartSlice.actions
 export const cartReducer = cartSlice.reducer
 
 export const selectedCartQuantity = (state: { cart: ProductState }) => state.cart.items.reduce((acc, cur) => acc += cur.quantity, 0)

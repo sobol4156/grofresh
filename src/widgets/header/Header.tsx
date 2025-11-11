@@ -22,7 +22,6 @@ export default function Header() {
   const pathname = (usePathname() ?? '/') as HeaderRoute;
   const currentConfig: HeaderConfig = headerConfig[pathname];
 
-
   const navigateBack = () => {
     if (window.history.length > 1) {
       router.back();
@@ -30,7 +29,6 @@ export default function Header() {
       router.push('/');
     }
   }
-
 
   return (
     <header className='flex relative justify-between w-full container'>

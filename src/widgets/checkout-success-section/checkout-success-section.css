@@ -4,6 +4,11 @@
   transform-origin: bottom center;
   animation: slideUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: 0.2s;
+  will-change: transform, opacity;
+}
+
+.slide-up.animation-complete {
+  will-change: auto;
 }
 
 @keyframes slideUp {
@@ -21,5 +26,6 @@
   100% {
     opacity: 1;
     transform: translateY(0) scaleY(1);
+    will-change: auto;
   }
 }

@@ -1,13 +1,27 @@
+import { useAppDispatch, useAppSelector } from "@/app/providers/store-provider/config/hooks";
+import { clearCart } from "@/entities/cart/model/cart.slice";
 import Button from "@/shared/ui/Button";
 import { useRouter } from "next/router";
+import { allPriceCart as allPriceCartSelector } from "@/entities/cart/model/cart.slice"
+import { serviceFee as serviceFeeSelector } from "@/entities/payment/model/payment.slice"
+import { formatDate } from "@/shared/lib/formatDate";
 
 export default function PaymentDetails() {
   const router = useRouter()
 
+  const dispatch = useAppDispatch();
+  const serviceFee = useAppSelector(serviceFeeSelector)
+  const allPriceCart = useAppSelector(allPriceCartSelector)
+
+  const datePayment = formatDate();
+  const totalPrice = (Number(allPriceCart) > 0 ? Number(allPriceCart) + Number(serviceFee) : 0).toFixed(2)
+
   const navigateToHome = () => {
     document.body.style.transition = `none`
+    dispatch(clearCart())
     router.push('/')
   }
+
 
   return (
     <div className="container flex flex-col bg-white p-[16px_24px] rounded-[10px_10px_0_0]">
@@ -30,14 +44,14 @@ export default function PaymentDetails() {
 
         <div className="flex justify-between">
           <span className="h6-bold">Date</span>
-          <span className="h6-regular">{'17 July, 08:45 am'}</span>
+          <span className="h6-regular">{datePayment}</span>
         </div>
 
         <div className="w-full border-b border-light-silver mt-3 mb-2.5"></div>
 
         <div className="flex justify-between">
           <span className="h6-bold">Fee</span>
-          <span className="h6-regular">${1.50}</span>
+          <span className="h6-regular">${serviceFee}</span>
         </div>
 
         <div className="w-full border-b border-light-silver mt-3 mb-2.5"></div>
@@ -51,7 +65,7 @@ export default function PaymentDetails() {
 
         <div className="flex justify-between">
           <span className="h5-bold">Sub total</span>
-          <span className="h6-bold">${11.95}</span>
+          <span className="h6-bold">${totalPrice}</span>
         </div>
 
         <div className="w-full border-b border-light-silver mt-3 mb-2.5"></div>
